@@ -11,14 +11,15 @@ Last updated: 2026-09-10
 - [x] PF-005A Align local `main` with the existing GitHub history.
 - [x] PF-005 Create the initial documentation baseline commit.
 - [x] PF-006 Publish the documentation baseline to GitHub.
+- [x] PF-007 Record the verified publication state on `main`.
 
 ## Current
 
-- [ ] PF-007 Record the verified publication state on `main`.
+- [ ] PF-008 Scaffold the React/Vite and Cloudflare Worker foundation.
 
 ## Next
 
-- Scaffold the React/Vite and Cloudflare Worker foundation on a focused branch.
+- Review and validate the foundation before merging it into `main`.
 
 ## Blocked
 
@@ -43,7 +44,7 @@ Last updated: 2026-09-10
 
 ## GitHub Status
 
-- Local `main` and `origin/main` are synchronized at commit `bab3613`.
+- Local `main` and `origin/main` are synchronized at commit `47c6594`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 
