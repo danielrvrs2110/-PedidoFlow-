@@ -1,137 +1,149 @@
-# AGENTS.md
+# PedidoFlow Codex Instructions
 
 ## Project
 
-This repository contains a production-quality SaaS application.
+PedidoFlow is an independent SaaS product owned by Solervia. This repository
+contains PedidoFlow only; it is not a Solervia monorepo or company control
+plane.
 
-The goal is to create a functional, demonstrable, maintainable SaaS product,
-not a static mockup.
+The product converts unstructured B2B orders into reviewable drafts, matched
+SKUs, confirmed orders, picking work, delivery states, and payment states.
+It must become a working product rather than a static mockup.
 
-## Operating model
+## Read First
 
-Development follows an orchestrator → specialist-agent workflow.
+Before modifying the repository:
 
-The primary Codex agent acts as the project orchestrator.
+1. Read `PEDIDOFLOW_MASTER.md` for the complete operating system and product
+   context.
+2. Read `docs/TASKS.md` for the current task and durable project state.
+3. Read the relevant documentation under `docs/` when it exists.
+4. Inspect the current code and Git state before editing.
 
-The orchestrator should NOT immediately implement large features.
+Repository documentation overrides chat memory. PedidoFlow-specific decisions
+in `PEDIDOFLOW_MASTER.md` override generic examples preserved inside that file.
 
-Its primary responsibilities are:
+## Operating Model
 
-1. Understand the requested outcome.
-2. Inspect the existing repository.
-3. Read relevant project documentation.
-4. Decompose large goals into small implementation tasks.
-5. Determine task dependencies.
-6. Determine which tasks can run in parallel.
-7. Delegate narrowly scoped work to specialist agents when appropriate.
-8. Review completed work.
-9. Run or request validation.
-10. Update project documentation and task status.
-11. Determine the next highest-priority task.
+The main Codex chat is the PedidoFlow Orchestrator. Development proceeds one
+instruction at a time.
 
-## Source of truth
+The Orchestrator must:
 
-Read these before making significant architectural decisions:
+- inspect before assuming;
+- select the smallest useful next task;
+- define acceptance criteria and validation;
+- delegate narrowly scoped substantial work when separation improves safety;
+- review repository evidence before marking a task complete;
+- maintain `docs/TASKS.md` and record important decisions durably;
+- return only one next instruction after each review.
 
-- docs/PROJECT.md
-- docs/ARCHITECTURE.md
-- docs/ROADMAP.md
-- docs/DECISIONS.md
-- docs/TASKS.md
+Substantial implementation should normally use a focused specialist chat.
+Small repository-management and documentation changes may be completed by the
+Orchestrator.
 
-Do not rely on chat history when repository documentation contains the answer.
+When a specialist chat is required, the Orchestrator supplies its exact name,
+repository/worktree, branch, complete prompt, scope boundaries, acceptance
+criteria, validation commands, Git requirements, and completion-report format.
 
-## Development principles
+## Product Boundaries
 
-Prefer:
+The MVP focuses on:
 
-- simple architecture
-- low operating cost
-- managed services
-- free tiers where practical
-- maintainable code
-- reusable components
-- responsive UX
-- secure defaults
-- incremental implementation
+```text
+unstructured B2B order
+-> interpreted draft
+-> product/SKU matching
+-> human review of uncertainty
+-> confirmed order
+-> picking
+-> delivery state
+-> payment state
+```
 
-Avoid:
+PedidoFlow is not an ERP, WMS, CRM, POS, accounting suite, CFDI engine, fleet
+platform, or generic chatbot. AI may create drafts and recommendations; it may
+not silently confirm orders.
 
-- unnecessary microservices
-- premature optimization
-- unnecessary infrastructure
-- expensive services without justification
-- placeholder functionality presented as complete
-- giant changes spanning unrelated concerns
+## Technical Baseline
 
-## Before implementation
+- TypeScript
+- React and Vite
+- React Router
+- Tailwind CSS with customized shadcn/ui primitives
+- React Hook Form and Zod
+- Hono on Cloudflare Workers
+- Drizzle ORM and Cloudflare D1
+- Better Auth
+- Cloudflare R2
+- Internal `OrderInterpreter` abstraction with OpenAI as the initial provider
+- Resend
+- Meta WhatsApp Cloud API behind a provider abstraction
+- Vitest, Testing Library, and Playwright
 
-For substantial work:
+Changing this baseline requires a concrete reason, impact and cost analysis,
+migration consequences, an entry in `docs/DECISIONS.md`, and user approval when
+the change is material.
 
-1. Inspect the repository.
-2. Identify affected systems.
-3. Check dependencies.
-4. Define acceptance criteria.
-5. Create or update the relevant task.
-6. Only then begin implementation.
+## Security and Tenancy
 
-## Task sizing
+PedidoFlow is multi-tenant from the beginning. Every tenant-owned record and
+server-side query must be scoped to the authenticated organization. Never rely
+on hidden frontend controls for authorization. Validate untrusted inputs and
+never expose or commit secrets.
 
-Tasks should normally be small enough for one specialist agent to implement
-and verify independently.
+## UX Direction
 
-Prefer:
+Design for an operations team using the application for hours each day. Favor
+clear hierarchy, useful density, restrained color, subtle borders, accessible
+states, compact tables, and intentionally designed mobile flows.
 
-"Implement email/password signup using Supabase Auth"
+Avoid generic AI-SaaS styling: decorative gradients, oversized rounded cards,
+meaningless charts, glassmorphism, excessive shadows, fake metrics, and
+template-like layouts. The Inbox, Conversation, and Parsed Order Review flow is
+a signature experience. High-confidence items should recede while uncertainty
+and exceptions attract attention.
 
-instead of:
+## Change Rules
 
-"Implement authentication"
-
-Prefer:
-
-"Create responsive login page using existing design tokens"
-
-instead of:
-
-"Build frontend"
+- Read before editing.
+- Do not expand scope or rewrite unrelated working code.
+- Preserve established architecture, naming, design tokens, schema, and
+  behavior unless the active task explicitly requires a change.
+- Keep TypeScript readable, typed, modular, and free of dead or silent
+  placeholder code.
+- If functionality is visible, it should work unless it is clearly identified
+  as demo data or an intentionally unavailable integration.
+- Report changed files, validation performed, results, unresolved issues, and
+  risks.
 
 ## Validation
 
-Work is not complete merely because code was generated.
+A task is complete only when its acceptance criteria are supported by evidence.
+Run the checks relevant to the change, including as applicable:
 
-Where applicable run:
+- formatting or linting;
+- type checking;
+- unit and integration tests;
+- Playwright critical-flow tests;
+- production build;
+- database migration validation;
+- endpoint behavior;
+- responsive visual inspection;
+- tenant-isolation and authorization checks.
 
-- type checking
-- linting
-- unit tests
-- integration tests
-- build
-- database validation
-- security checks
+Do not claim success based only on generated code or a specialist's report.
 
-Never claim something works unless it has been reasonably validated.
+## Git
 
-## Definition of Done
+`main` is the production branch. Use lightweight feature branches for
+meaningful work. Do not commit secrets, broken milestones, unrelated changes,
+or the entire product as one giant commit. The Orchestrator decides when to
+branch, commit, push, open a pull request, merge, and delete a branch.
 
-A task is complete when:
+## Cost and Infrastructure
 
-- implementation exists
-- acceptance criteria are satisfied
-- relevant tests pass
-- build succeeds where applicable
-- no obvious regressions were introduced
-- documentation is updated when necessary
-
-## Decision tracking
-
-Important technical decisions must be recorded in:
-
-docs/DECISIONS.md
-
-Include:
-
-- decision
-- reason
-- alternatives considered
-- consequences
+Prefer the simplest architecture that works and can remain near $0 for dormant
+or low-usage deployments. Before adding a paid provider or major dependency,
+check whether the selected stack already satisfies the requirement and record
+material cost or portfolio-level consequences.
