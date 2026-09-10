@@ -10,10 +10,11 @@ Last updated: 2026-09-10
 - [x] PF-004 Establish the minimum durable project documentation.
 - [x] PF-005A Align local `main` with the existing GitHub history.
 - [x] PF-005 Create the initial documentation baseline commit.
+- [x] PF-006 Publish the documentation baseline to GitHub.
 
 ## Current
 
-- [ ] PF-006 Publish the documentation baseline to GitHub.
+- [ ] PF-007 Record the verified publication state on `main`.
 
 ## Next
 
@@ -42,9 +43,9 @@ Last updated: 2026-09-10
 
 ## GitHub Status
 
-- Local `main` is one documentation commit ahead of `origin/main`.
+- Local `main` and `origin/main` are synchronized at commit `bab3613`.
 - Public remote access has been verified.
-- The PedidoFlow operating documentation is committed locally but not pushed.
+- The PedidoFlow operating documentation is committed and published.
 
 ## High-Level Milestones
 
