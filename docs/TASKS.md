@@ -15,15 +15,18 @@ Last updated: 2026-09-10
 
 ## Current
 
-- [ ] PF-008 Scaffold the React/Vite and Cloudflare Worker foundation.
+- [ ] PF-008A Activate a Node.js runtime compatible with the current Cloudflare
+  scaffolder.
 
 ## Next
 
-- Review and validate the foundation before merging it into `main`.
+- PF-008 Scaffold the React/Vite and Cloudflare Worker foundation on a focused
+  branch, then review it before merge.
 
 ## Blocked
 
-- None.
+- PF-008 is blocked by the local Node.js version: Node `20.20.2` is active, but
+  `create-cloudflare@2.72.6` requires Node `>=22.0.0`.
 
 ## Technical Debt
 
