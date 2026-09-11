@@ -19,15 +19,17 @@ Last updated: 2026-09-11
 - [x] PF-010 Review the foundation diff and merge it into `main`.
 - [x] PF-011 Define PedidoFlow design-system foundations and operational UX
   constraints.
+- [x] PF-012 Implement approved design tokens and the first reusable UI
+  primitives.
 
 ## Current
 
-- [ ] PF-012 Implement approved design tokens and the first reusable UI
-  primitives.
+- [ ] PF-013 Establish the responsive application-shell design and navigation
+  contract.
 
 ## Next
 
-- Build the responsive application shell from the approved primitives.
+- Implement the approved application shell without adding business CRUD.
 
 ## Blocked
 
@@ -64,6 +66,9 @@ Last updated: 2026-09-11
 - PF-011: design principles, visual tokens, operational density, domain states,
   responsive behavior, accessibility baseline, Figma structure, and review
   criteria are documented in `docs/DESIGN_SYSTEM.md`.
+- PF-012: Tailwind 4 design tokens and reusable Button, Badge, and Alert
+  primitives pass 5 tests, lint, typecheck, build, npm audit, and desktop/mobile
+  browser QA.
 
 ## GitHub Status
 

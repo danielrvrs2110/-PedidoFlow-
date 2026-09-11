@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { Badge } from '../components/ui'
 import { getHealth, type HealthState } from '../lib/health'
-import './app.css'
 
 const initialHealth: HealthState = {
   state: 'loading',
@@ -33,35 +33,56 @@ function FoundationPage() {
   }, [])
 
   return (
-    <main className="foundation-shell">
-      <section className="foundation-panel" aria-labelledby="page-title">
-        <div className="brand-mark" aria-hidden="true">
+    <main className="grid min-h-screen place-items-center bg-neutral-50 px-5 py-8 max-[520px]:place-items-stretch max-[520px]:p-0">
+      <section
+        className="w-full max-w-170 rounded-overlay border border-neutral-200 bg-neutral-0 p-8 max-[520px]:min-h-screen max-[520px]:rounded-none max-[520px]:border-0 max-[520px]:p-5 max-[520px]:pt-7"
+        aria-labelledby="page-title"
+      >
+        <div
+          className="mb-8 grid size-10 place-items-center rounded-panel bg-brand-700 text-sm font-bold tracking-tight text-white"
+          aria-hidden="true"
+        >
           PF
         </div>
         <div>
-          <p className="eyebrow">Fundación del producto</p>
-          <h1 id="page-title">PedidoFlow</h1>
-          <p className="summary">
+          <p className="mb-2 text-xs font-semibold tracking-[0.08em] text-neutral-500 uppercase">
+            Fundación del producto
+          </p>
+          <h1
+            id="page-title"
+            className="m-0 text-[clamp(2rem,7vw,3rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-neutral-900"
+          >
+            PedidoFlow
+          </h1>
+          <p className="mt-4 mb-9 max-w-130 text-lg leading-7 text-neutral-700">
             Convierte pedidos B2B en órdenes listas para revisar y surtir.
           </p>
         </div>
 
-        <dl className="readiness-list">
-          <div>
-            <dt>Aplicación</dt>
-            <dd>React + Vite</dd>
+        <dl className="m-0 border-t border-neutral-200">
+          <div className="grid grid-cols-[minmax(100px,1fr)_minmax(180px,2fr)] gap-6 border-b border-neutral-200 py-4 max-[520px]:grid-cols-1 max-[520px]:gap-1.5">
+            <dt className="text-neutral-500">Aplicación</dt>
+            <dd className="m-0 font-semibold text-neutral-900">React + Vite</dd>
           </div>
-          <div>
-            <dt>Runtime</dt>
-            <dd>Cloudflare Workers</dd>
+          <div className="grid grid-cols-[minmax(100px,1fr)_minmax(180px,2fr)] gap-6 border-b border-neutral-200 py-4 max-[520px]:grid-cols-1 max-[520px]:gap-1.5">
+            <dt className="text-neutral-500">Runtime</dt>
+            <dd className="m-0 font-semibold text-neutral-900">Cloudflare Workers</dd>
           </div>
-          <div>
-            <dt>Estado</dt>
-            <dd>
-              <span className={`status status--${health.state}`}>
-                <span className="status-dot" aria-hidden="true" />
+          <div className="grid grid-cols-[minmax(100px,1fr)_minmax(180px,2fr)] gap-6 border-b border-neutral-200 py-4 max-[520px]:grid-cols-1 max-[520px]:gap-1.5">
+            <dt className="text-neutral-500">Estado</dt>
+            <dd className="m-0">
+              <Badge
+                tone={
+                  health.state === 'ready'
+                    ? 'success'
+                    : health.state === 'error'
+                      ? 'danger'
+                      : 'neutral'
+                }
+                showDot
+              >
                 {health.message}
-              </span>
+              </Badge>
             </dd>
           </div>
         </dl>
