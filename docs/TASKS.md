@@ -15,14 +15,15 @@ Last updated: 2026-09-11
 - [x] PF-008A Activate a Node.js runtime compatible with the current Cloudflare
   scaffolder.
 - [x] PF-008 Scaffold the React/Vite and Cloudflare Worker foundation.
+- [x] PF-009 Publish the validated foundation branch for review.
 
 ## Current
 
-- [ ] PF-009 Publish the validated foundation branch for review.
+- [ ] PF-010 Review the foundation diff and merge it into `main`.
 
 ## Next
 
-- Review the foundation diff and determine whether it can merge into `main`.
+- Establish the first design-system task after the foundation is merged.
 
 ## Blocked
 
@@ -54,14 +55,16 @@ Last updated: 2026-09-11
 - PF-008 browser QA: desktop and 390 x 844 mobile views render meaningful
   content without an error overlay or horizontal overflow; `/api/health`
   returns the expected JSON response.
+- PF-008 routing QA: unknown `/api/*` paths return structured JSON 404s while
+  direct client-side paths return the SPA HTML fallback.
 
 ## GitHub Status
 
 - Local `main` and `origin/main` are synchronized at commit `eeb464d`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
-- Foundation work is active on `codex/feature/foundation` and is not published
-  yet.
+- The validated foundation branch is published as
+  `codex/feature/foundation`; merge review is pending.
 
 ## High-Level Milestones
 
