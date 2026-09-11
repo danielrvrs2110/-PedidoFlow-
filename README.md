@@ -60,6 +60,7 @@ npm run build
 - `docs/PROJECT.md`: propósito y alcance.
 - `docs/ARCHITECTURE.md`: arquitectura aprobada.
 - `docs/ROADMAP.md`: orden de los hitos.
+- `docs/DESIGN_SYSTEM.md`: fundamentos visuales y de interacción.
 - `docs/TASKS.md`: estado actual y checklist.
 - `docs/DECISIONS.md`: decisiones importantes.
 
