@@ -17,8 +17,9 @@ Before modifying the repository:
 1. Read `PEDIDOFLOW_MASTER.md` for the complete operating system and product
    context.
 2. Read `docs/TASKS.md` for the current task and durable project state.
-3. Read the relevant documentation under `docs/` when it exists.
-4. Inspect the current code and Git state before editing.
+3. Read `docs/DESIGN_SYSTEM.md` before visual or interaction work.
+4. Read the relevant documentation under `docs/` when it exists.
+5. Inspect the current code and Git state before editing.
 
 Repository documentation overrides chat memory. PedidoFlow-specific decisions
 in `PEDIDOFLOW_MASTER.md` override generic examples preserved inside that file.

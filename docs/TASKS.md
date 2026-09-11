@@ -17,15 +17,17 @@ Last updated: 2026-09-11
 - [x] PF-008 Scaffold the React/Vite and Cloudflare Worker foundation.
 - [x] PF-009 Publish the validated foundation branch for review.
 - [x] PF-010 Review the foundation diff and merge it into `main`.
+- [x] PF-011 Define PedidoFlow design-system foundations and operational UX
+  constraints.
 
 ## Current
 
-- [ ] PF-011 Define PedidoFlow design-system foundations and operational UX
-  constraints.
+- [ ] PF-012 Implement approved design tokens and the first reusable UI
+  primitives.
 
 ## Next
 
-- Implement approved design tokens and the first reusable UI primitives.
+- Build the responsive application shell from the approved primitives.
 
 ## Blocked
 
@@ -59,6 +61,9 @@ Last updated: 2026-09-11
   returns the expected JSON response.
 - PF-008 routing QA: unknown `/api/*` paths return structured JSON 404s while
   direct client-side paths return the SPA HTML fallback.
+- PF-011: design principles, visual tokens, operational density, domain states,
+  responsive behavior, accessibility baseline, Figma structure, and review
+  criteria are documented in `docs/DESIGN_SYSTEM.md`.
 
 ## GitHub Status
 
