@@ -44,3 +44,26 @@
 - Decision: Use `main` as the production branch and focused feature branches for
   meaningful work.
 - Consequence: Work must pass task-appropriate validation before merge.
+
+## DEC-005 — Exact Numeric Storage
+
+- Date: 2026-09-11
+- Status: Accepted
+- Decision: Store money as integer minor units, operational quantities as
+  integer milli-units, and AI confidence as integer basis points.
+- Reason: SQLite floating-point values are unsuitable for auditable money and
+  exact operational comparisons.
+- Consequence: Application boundaries format and validate decimal input; schema
+  checks and domain services operate on exact integers.
+
+## DEC-006 — Composite Tenant Relationships
+
+- Date: 2026-09-11
+- Status: Accepted
+- Decision: Tenant-owned parent/child relationships include
+  `organization_id` in foreign and unique keys even though opaque IDs are
+  globally generated.
+- Reason: Query conventions alone do not prevent a child from referencing a
+  resource in another tenant.
+- Consequence: Drizzle schema, repositories, seeds, and tests carry explicit
+  organization context and prove cross-tenant relationships fail.
