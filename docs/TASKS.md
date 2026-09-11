@@ -21,15 +21,16 @@ Last updated: 2026-09-11
   constraints.
 - [x] PF-012 Implement approved design tokens and the first reusable UI
   primitives.
+- [x] PF-013 Establish the responsive application-shell design and navigation
+  contract.
 
 ## Current
 
-- [ ] PF-013 Establish the responsive application-shell design and navigation
-  contract.
+- [ ] PF-014 Implement the responsive application shell without business CRUD.
 
 ## Next
 
-- Implement the approved application shell without adding business CRUD.
+- Validate and review the shell before completing the UX-foundation code gate.
 
 ## Blocked
 
@@ -69,6 +70,9 @@ Last updated: 2026-09-11
 - PF-012: Tailwind 4 design tokens and reusable Button, Badge, and Alert
   primitives pass 5 tests, lint, typecheck, build, npm audit, and desktop/mobile
   browser QA.
+- PF-013: route hierarchy, desktop/mobile navigation, responsive behavior,
+  accessibility, failure states, implementation boundary, and acceptance
+  criteria are defined in `docs/APP_SHELL.md`.
 
 ## GitHub Status
 
