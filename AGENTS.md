@@ -21,8 +21,10 @@ Before modifying the repository:
 4. Read `docs/APP_SHELL.md` before navigation or application-layout work.
 5. Read `docs/SIGNATURE_UX.md` before dashboard, Inbox, conversation, matching,
    or parsed-order review work.
-6. Read the relevant documentation under `docs/` when it exists.
-7. Inspect the current code and Git state before editing.
+6. Read `docs/DATA_MODEL.md` before database, domain model, tenant repository,
+   or migration work.
+7. Read the relevant documentation under `docs/` when it exists.
+8. Inspect the current code and Git state before editing.
 
 Repository documentation overrides chat memory. PedidoFlow-specific decisions
 in `PEDIDOFLOW_MASTER.md` override generic examples preserved inside that file.

@@ -29,6 +29,8 @@ review behavior, and intentional desktop/mobile layouts.
 
 ## M3 — Database and Tenant Model
 
+Status: In progress.
+
 Implement Drizzle/D1 schema, migrations, realistic seed tooling, constraints,
 indexes, and organization scoping.
 

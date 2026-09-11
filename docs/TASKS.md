@@ -26,15 +26,17 @@ Last updated: 2026-09-11
 - [x] PF-014 Implement the responsive application shell without business CRUD.
 - [x] PF-015 Define the dashboard, Inbox, and parsed-order review UX contract
   for desktop and mobile.
+- [x] PF-016 Define the tenant-first D1/Drizzle data model, invariants, and
+  migration boundary.
 
 ## Current
 
-- [ ] PF-016 Define the tenant-first D1/Drizzle data model, invariants, and
-  migration boundary.
+- [ ] PF-017 Implement Drizzle schema, generated migrations, safe local seed
+  tooling, and tenant-isolation validation.
 
 ## Next
 
-- Implement and validate the approved local database foundation.
+- Review the local database foundation before completing M3.
 
 ## Blocked
 
@@ -85,12 +87,16 @@ Last updated: 2026-09-11
 - PF-015: dashboard priorities, the desktop/mobile Inbox flow, parsed-line
   review, correction and confirmation gates, failure states, accessibility, and
   manual-order-before-AI sequencing are defined in `docs/SIGNATURE_UX.md`.
+- PF-016: table ownership, exact numeric representation, composite tenant
+  relationships, lifecycle and history invariants, indexes, auth separation,
+  migration boundary, and implementation acceptance criteria are defined in
+  `docs/DATA_MODEL.md`; DEC-005 and DEC-006 record the material decisions.
 
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
-- Pull requests #2–#5 merged the design-system tokens, shell contract, and
-  responsive shell implementation into `main`.
+- Pull requests #2–#6 merged the UX-foundation contracts and responsive shell
+  implementation into `main`.
 - Local `main` and `origin/main` are synchronized.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
