@@ -24,15 +24,17 @@ Last updated: 2026-09-11
 - [x] PF-013 Establish the responsive application-shell design and navigation
   contract.
 - [x] PF-014 Implement the responsive application shell without business CRUD.
+- [x] PF-015 Define the dashboard, Inbox, and parsed-order review UX contract
+  for desktop and mobile.
 
 ## Current
 
-- [ ] PF-015 Define the dashboard, Inbox, and parsed-order review UX contract
-  for desktop and mobile.
+- [ ] PF-016 Define the tenant-first D1/Drizzle data model, invariants, and
+  migration boundary.
 
 ## Next
 
-- Complete the UX-foundation design gate before starting the database model.
+- Implement and validate the approved local database foundation.
 
 ## Blocked
 
@@ -78,14 +80,17 @@ Last updated: 2026-09-11
 - PF-014: the responsive shell renders all top-level routes, desktop and mobile
   navigation, accessible native-dialog drawers, active states, focus handling,
   explicit development states, and application/public 404 pages. Lint,
-  typecheck, 8 tests, production build, npm audit, and browser QA at 1440 x 900,
+  typecheck, 17 tests, production build, npm audit, and browser QA at 1440 x 900,
   900 x 800, and 390 x 844 pass without console errors or horizontal overflow.
+- PF-015: dashboard priorities, the desktop/mobile Inbox flow, parsed-line
+  review, correction and confirmation gates, failure states, accessibility, and
+  manual-order-before-AI sequencing are defined in `docs/SIGNATURE_UX.md`.
 
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
-- Pull requests #2–#4 merged the design-system tokens and shell contract into
-  `main`; PF-014 is pending publication from its focused feature branch.
+- Pull requests #2–#5 merged the design-system tokens, shell contract, and
+  responsive shell implementation into `main`.
 - Local `main` and `origin/main` are synchronized.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
@@ -94,7 +99,7 @@ Last updated: 2026-09-11
 
 - [x] M0 — Product definition and architecture planning (preserved in the master document)
 - [x] M1 — Repository and environment foundation
-- [ ] M2 — UX foundations and design system
+- [x] M2 — UX foundations and design system
 - [ ] M3 — Database and tenant model
 - [ ] M4 — Authentication and authorization
 - [ ] M5 — Application shell

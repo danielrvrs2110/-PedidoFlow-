@@ -62,6 +62,7 @@ npm run build
 - `docs/ROADMAP.md`: orden de los hitos.
 - `docs/DESIGN_SYSTEM.md`: fundamentos visuales y de interacción.
 - `docs/APP_SHELL.md`: navegación y layout responsive de la aplicación.
+- `docs/SIGNATURE_UX.md`: contrato UX del Dashboard, Inbox y revisión de pedidos.
 - `docs/TASKS.md`: estado actual y checklist.
 - `docs/DECISIONS.md`: decisiones importantes.
 

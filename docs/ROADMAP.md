@@ -21,7 +21,8 @@ server and production build, then create the initial Git/GitHub baseline.
 
 ## M2 — UX Foundations
 
-Status: In progress.
+Status: Complete on 2026-09-11 through the design-system, application-shell,
+and signature-workflow contracts and implementation.
 
 Define design tokens, application shell, core components, signature Inbox/order
 review behavior, and intentional desktop/mobile layouts.
