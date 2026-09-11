@@ -13,13 +13,15 @@ major risks are defined.
 
 ## M1 — Repository and Environment Foundation
 
-Status: In progress.
+Status: Complete on 2026-09-11 through pull request #1.
 
 Establish repository instructions and durable state, scaffold the React/Worker
 application, add a health endpoint and basic structure, validate the development
 server and production build, then create the initial Git/GitHub baseline.
 
 ## M2 — UX Foundations
+
+Status: In progress.
 
 Define design tokens, application shell, core components, signature Inbox/order
 review behavior, and intentional desktop/mobile layouts.

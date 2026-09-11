@@ -16,14 +16,16 @@ Last updated: 2026-09-11
   scaffolder.
 - [x] PF-008 Scaffold the React/Vite and Cloudflare Worker foundation.
 - [x] PF-009 Publish the validated foundation branch for review.
+- [x] PF-010 Review the foundation diff and merge it into `main`.
 
 ## Current
 
-- [ ] PF-010 Review the foundation diff and merge it into `main`.
+- [ ] PF-011 Define PedidoFlow design-system foundations and operational UX
+  constraints.
 
 ## Next
 
-- Establish the first design-system task after the foundation is merged.
+- Implement approved design tokens and the first reusable UI primitives.
 
 ## Blocked
 
@@ -60,16 +62,15 @@ Last updated: 2026-09-11
 
 ## GitHub Status
 
-- Local `main` and `origin/main` are synchronized at commit `eeb464d`.
+- Pull request #1 merged the foundation into `main` at commit `88419f8`.
+- Local `main` and `origin/main` are synchronized.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
-- The validated foundation branch is published as
-  `codex/feature/foundation`; merge review is pending.
 
 ## High-Level Milestones
 
 - [x] M0 — Product definition and architecture planning (preserved in the master document)
-- [ ] M1 — Repository and environment foundation
+- [x] M1 — Repository and environment foundation
 - [ ] M2 — UX foundations and design system
 - [ ] M3 — Database and tenant model
 - [ ] M4 — Authentication and authorization
