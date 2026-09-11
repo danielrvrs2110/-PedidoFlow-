@@ -23,14 +23,16 @@ Last updated: 2026-09-11
   primitives.
 - [x] PF-013 Establish the responsive application-shell design and navigation
   contract.
+- [x] PF-014 Implement the responsive application shell without business CRUD.
 
 ## Current
 
-- [ ] PF-014 Implement the responsive application shell without business CRUD.
+- [ ] PF-015 Define the dashboard, Inbox, and parsed-order review UX contract
+  for desktop and mobile.
 
 ## Next
 
-- Validate and review the shell before completing the UX-foundation code gate.
+- Complete the UX-foundation design gate before starting the database model.
 
 ## Blocked
 
@@ -73,10 +75,17 @@ Last updated: 2026-09-11
 - PF-013: route hierarchy, desktop/mobile navigation, responsive behavior,
   accessibility, failure states, implementation boundary, and acceptance
   criteria are defined in `docs/APP_SHELL.md`.
+- PF-014: the responsive shell renders all top-level routes, desktop and mobile
+  navigation, accessible native-dialog drawers, active states, focus handling,
+  explicit development states, and application/public 404 pages. Lint,
+  typecheck, 8 tests, production build, npm audit, and browser QA at 1440 x 900,
+  900 x 800, and 390 x 844 pass without console errors or horizontal overflow.
 
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
+- Pull requests #2–#4 merged the design-system tokens and shell contract into
+  `main`; PF-014 is pending publication from its focused feature branch.
 - Local `main` and `origin/main` are synchronized.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
