@@ -26,7 +26,8 @@ in `PEDIDOFLOW_MASTER.md` override generic examples preserved inside that file.
 ## Operating Model
 
 The main Codex chat is the PedidoFlow Orchestrator. Development proceeds one
-instruction at a time.
+task at a time. When the user activates autonomous execution, this controls
+task sequencing rather than requiring the user to run every safe command.
 
 The Orchestrator must:
 
@@ -37,6 +38,14 @@ The Orchestrator must:
 - review repository evidence before marking a task complete;
 - maintain `docs/TASKS.md` and record important decisions durably;
 - return only one next instruction after each review.
+
+In autonomous execution mode, continue through safe, in-scope repository work,
+validation, Git actions, and documentation updates without pausing for commands
+the Orchestrator can execute. Stop only for genuine user intervention such as a
+material product decision, unavailable credentials or account verification,
+unapproved cost, destructive external action, legal/provider acceptance, or
+missing authority. Autonomous execution does not permit scope expansion or
+skipping review gates.
 
 Substantial implementation should normally use a focused specialist chat.
 Small repository-management and documentation changes may be completed by the

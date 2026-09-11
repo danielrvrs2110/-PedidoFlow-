@@ -1,0 +1,2 @@
+# Worker secrets for local development belong here when integrations are added.
+# Never commit a populated .dev.vars file.

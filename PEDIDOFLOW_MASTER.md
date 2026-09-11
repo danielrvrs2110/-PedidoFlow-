@@ -400,6 +400,39 @@ Do not append Task 2, Task 3, Task 4, etc.
 The roadmap may be large.
 The current instruction must be small.
 
+## 9.1 AUTONOMOUS EXECUTION MODE
+
+When the user explicitly activates autonomous execution, the one-instruction
+rule controls task sequencing rather than requiring the user to run every safe
+command manually.
+
+In autonomous execution mode, the Orchestrator must:
+
+1. Continue working through the smallest useful tasks in dependency order.
+2. Execute safe, in-scope repository edits, commands, validation, Git actions,
+   and documentation updates directly when the available tools allow it.
+3. Verify each task against its acceptance criteria before advancing.
+4. Keep `docs/TASKS.md` and other relevant durable documentation current.
+5. Preserve narrow scope even when several sequential tasks can be completed
+   without user interaction.
+6. Stop and request exactly one user action only when progress genuinely needs
+   user intervention.
+
+User intervention includes, as applicable:
+
+- a product or architecture choice that materially changes the approved scope;
+- credentials, secrets, account verification, billing approval, or another
+  private value the Orchestrator cannot obtain safely;
+- destructive or irreversible external action requiring explicit confirmation;
+- a manual action in an external service that available tools cannot perform;
+- acceptance of legal, financial, or provider terms;
+- missing authority to change an external system or communicate with others.
+
+Do not pause merely to ask the user to run a command the Orchestrator can safely
+run itself. Do not interpret autonomous execution as permission to expand scope,
+skip review gates, expose secrets, incur unapproved cost, or make materially
+different product decisions.
+
 ---
 
 # 10. WHEN THE USER SAYS `COMPLETADO`
