@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-09-10
+Last updated: 2026-09-11
 
 ## Completed
 
@@ -12,21 +12,22 @@ Last updated: 2026-09-10
 - [x] PF-005 Create the initial documentation baseline commit.
 - [x] PF-006 Publish the documentation baseline to GitHub.
 - [x] PF-007 Record the verified publication state on `main`.
+- [x] PF-008A Activate a Node.js runtime compatible with the current Cloudflare
+  scaffolder.
+- [x] PF-008 Scaffold the React/Vite and Cloudflare Worker foundation.
+- [x] PF-009 Publish the validated foundation branch for review.
 
 ## Current
 
-- [ ] PF-008A Activate a Node.js runtime compatible with the current Cloudflare
-  scaffolder.
+- [ ] PF-010 Review the foundation diff and merge it into `main`.
 
 ## Next
 
-- PF-008 Scaffold the React/Vite and Cloudflare Worker foundation on a focused
-  branch, then review it before merge.
+- Establish the first design-system task after the foundation is merged.
 
 ## Blocked
 
-- PF-008 is blocked by the local Node.js version: Node `20.20.2` is active, but
-  `create-cloudflare@2.72.6` requires Node `>=22.0.0`.
+- None.
 
 ## Technical Debt
 
@@ -36,6 +37,8 @@ Last updated: 2026-09-10
 
 - PedidoFlow uses the product-specific stack defined in `PEDIDOFLOW_MASTER.md`.
 - `main` is the production branch.
+- Autonomous execution is active: the Orchestrator performs safe in-scope work
+  directly and pauses only for genuine user intervention.
 
 ## Monthly Cost
 
@@ -45,11 +48,23 @@ Last updated: 2026-09-10
 
 - Not deployed.
 
+## Validation Evidence
+
+- PF-008: Node `22.23.2`; clean npm 11 installation; 0 audit findings;
+  lint, 2 API tests, typecheck, and production build pass.
+- PF-008 browser QA: desktop and 390 x 844 mobile views render meaningful
+  content without an error overlay or horizontal overflow; `/api/health`
+  returns the expected JSON response.
+- PF-008 routing QA: unknown `/api/*` paths return structured JSON 404s while
+  direct client-side paths return the SPA HTML fallback.
+
 ## GitHub Status
 
-- Local `main` and `origin/main` are synchronized at commit `47c6594`.
+- Local `main` and `origin/main` are synchronized at commit `eeb464d`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
+- The validated foundation branch is published as
+  `codex/feature/foundation`; merge review is pending.
 
 ## High-Level Milestones
 
