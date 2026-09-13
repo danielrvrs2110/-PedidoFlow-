@@ -68,3 +68,22 @@ npm run build
 - `docs/DECISIONS.md`: decisiones importantes.
 
 No se requieren secretos ni infraestructura remota para ejecutar este hito.
+
+## Base de datos local (PF-017)
+
+```bash
+npm run db:generate
+npm run db:check
+npm run db:reset:local
+npm run db:migrate:local
+npm run db:seed:local
+npm run db:inspect:local
+npm run test:db
+```
+
+Estos comandos usan únicamente la persistencia de este checkout en
+`.wrangler/pf017-local` y rechazan argumentos adicionales. El reset elimina
+esa base local. No requieren cuentas ni recursos remotos. El seed contiene dos
+organizaciones identificadas como desarrollo; aún no se conecta a las pantallas.
+Consulta `docs/DATABASE.md` para repetición de migraciones/seed, restricciones,
+aislamiento, versiones y reglas pendientes de los futuros servicios.

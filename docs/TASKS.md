@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-09-11
+Last updated: 2026-09-13
 
 ## Completed
 
@@ -33,6 +33,8 @@ Last updated: 2026-09-11
 
 - [ ] PF-017 Implement Drizzle schema, generated migrations, safe local seed
   tooling, and tenant-isolation validation.
+  Status: READY FOR ORCHESTRATOR REVIEW; implementation and evidence in
+  `docs/DATABASE.md` and `docs/PF-017_REVIEW.md`. Not marked complete.
 
 ## Next
 
@@ -92,14 +94,30 @@ Last updated: 2026-09-11
   migration boundary, and implementation acceptance criteria are defined in
   `docs/DATA_MODEL.md`; DEC-005 and DEC-006 record the material decisions.
 
+- PF-017: 22 domain tables, generated SQL/metadata, local history guards,
+  deterministic two-organization seed, 71 D1/tooling tests (88 total tests),
+  lint, typecheck, build, migration generation/check and repeated local
+  migration/seed pass. Review is pending; see `docs/PF-017_REVIEW.md`.
+
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
 - Pull requests #2–#6 merged the UX-foundation contracts and responsive shell
   implementation into `main`.
-- Local `main` and `origin/main` are synchronized.
+- Prior tracking states `main` and `origin/main` were synchronized. PF-017
+  started from local `main` at `24f79be`; no live remote sync was performed.
+- The PF-017 handoff reports PF-016 merged via PR #7; the summary above stopped
+  at #6. Remote PR state has not been independently refreshed in this task.
+- PF-017 remains on its local feature branch without push, PR or merge.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
+
+## Tracking Discrepancies for Orchestrator Review
+
+- This checklist retains the original M0–M14 labels; `docs/ROADMAP.md` uses
+  M0–M9 and groups operational application work differently. PF-014 already
+  completed the basic shell, while the old M5 label remains unchecked.
+  Reconcile labels separately; no additional milestone is claimed complete.
 
 ## High-Level Milestones
 

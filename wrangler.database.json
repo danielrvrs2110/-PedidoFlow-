@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pedidoflow-local-database",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-07",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "pedidoflow-development-only",
+      "database_id": "00000000-0000-0000-0000-000000000017",
+      "remote": false,
+      "migrations_dir": "worker/db/migrations"
+    }
+  ]
+}
