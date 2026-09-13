@@ -1,7 +1,11 @@
 # PF-017 — Database foundation handoff
 
-Status: **READY FOR ORCHESTRATOR REVIEW**. Verified on 2026-09-13.
-PF-017 remains unchecked and M3 remains in progress. No next task started.
+Status: **PASS WITH FOLLOW-UP**. Orchestrator review accepted on 2026-09-13.
+Implementation reviewed: `29e0da44cbe4a2b60ea5e6675d577fb12e9f0563`.
+The four moderate development-tooling findings remain tracked; acceptance
+criteria pass. Integration is the next gate, before authentication work.
+
+The evidence below records the implementation handoff before integration.
 
 ## Git and workspace
 
@@ -9,9 +13,8 @@ PF-017 remains unchecked and M3 remains in progress. No next task started.
 - Branch: `codex/feature/pf-017-database`.
 - Base: `24f79be481be3c9b7337bcba48f7e05ff6d312aa` (local `main`, PF-016).
 - Origin: `https://github.com/danielrvrs2110/-PedidoFlow-.git`.
-- Implementation commit: the commit containing this report, with subject
-  `feat: implement tenant-first local database foundation`; resolve with
-  `git log -1 --format=%H -- docs/PF-017_REVIEW.md`.
+- Implementation commit: `29e0da44cbe4a2b60ea5e6675d577fb12e9f0563`,
+  `feat: implement tenant-first local database foundation`.
 - Main checkout stayed on `main` at the base commit, with no changes.
 - No push, PR, merge, deployment, account setup or remote resource mutation.
   Remote repository synchronization and billing were not reverified.

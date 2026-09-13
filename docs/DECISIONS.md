@@ -71,7 +71,7 @@
 ## DEC-007 — Local Foundation and Historical Guards
 
 - Date: 2026-09-11
-- Status: Proposed implementation, pending PF-017 Orchestrator review.
+- Status: Accepted at PF-017 Orchestrator review on 2026-09-13.
 - Decision: Keep PF-017 D1 tooling in a dedicated local configuration and
   persistence directory. Use a generated Drizzle foundation and a versioned
   custom trigger migration for append-only events and confirmed price snapshots.

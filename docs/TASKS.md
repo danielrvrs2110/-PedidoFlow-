@@ -33,12 +33,13 @@ Last updated: 2026-09-13
 
 - [ ] PF-017 Implement Drizzle schema, generated migrations, safe local seed
   tooling, and tenant-isolation validation.
-  Status: READY FOR ORCHESTRATOR REVIEW; implementation and evidence in
-  `docs/DATABASE.md` and `docs/PF-017_REVIEW.md`. Not marked complete.
+  Status: PASS WITH FOLLOW-UP; implementation `29e0da4` reviewed and validated.
+  Pending GitHub integration. Evidence: `docs/PF-017_REVIEW.md`.
 
 ## Next
 
-- Review the local database foundation before completing M3.
+- Integrate reviewed PF-017, then define the authentication/authorization
+  contract as PF-018 before implementing Better Auth.
 
 ## Blocked
 
@@ -46,6 +47,8 @@ Last updated: 2026-09-13
 
 ## Technical Debt
 
+- Four moderate findings in Drizzle Kit development dependencies remain;
+  `npm audit --omit=dev` reports zero. See `docs/DATABASE.md`.
 - The local directory is named `Solervia`; the Git repository is being treated as the independent PedidoFlow product repository.
 
 ## Important Decisions
@@ -97,17 +100,16 @@ Last updated: 2026-09-13
 - PF-017: 22 domain tables, generated SQL/metadata, local history guards,
   deterministic two-organization seed, 71 D1/tooling tests (88 total tests),
   lint, typecheck, build, migration generation/check and repeated local
-  migration/seed pass. Review is pending; see `docs/PF-017_REVIEW.md`.
+  migration/seed pass. Review accepted with development-tooling follow-up;
+  see `docs/PF-017_REVIEW.md`.
 
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
 - Pull requests #2–#6 merged the UX-foundation contracts and responsive shell
   implementation into `main`.
-- Prior tracking states `main` and `origin/main` were synchronized. PF-017
-  started from local `main` at `24f79be`; no live remote sync was performed.
-- The PF-017 handoff reports PF-016 merged via PR #7; the summary above stopped
-  at #6. Remote PR state has not been independently refreshed in this task.
+- Verified on 2026-09-13: PR #7 merged PF-016 at `24f79be`; local `main`
+  and the live remote main ref match that commit.
 - PF-017 remains on its local feature branch without push, PR or merge.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
