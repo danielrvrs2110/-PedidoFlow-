@@ -29,12 +29,16 @@ review behavior, and intentional desktop/mobile layouts.
 
 ## M3 — Database and Tenant Model
 
-Status: In progress.
+Status: Complete on 2026-09-15 through pull request #8.
 
 Implement Drizzle/D1 schema, migrations, realistic seed tooling, constraints,
-indexes, and organization scoping.
+indexes, and organization scoping. Four moderate development-only Drizzle
+tooling findings remain tracked; production dependencies audit cleanly.
 
 ## M4 — Authentication and Authorization
+
+Status: In progress; PF-018 contract accepted, PF-019 identity/session
+foundation next.
 
 Implement Better Auth, organization membership, protected routes, roles, and
 verified cross-tenant isolation.

@@ -1,9 +1,10 @@
 # PF-017 — Database foundation handoff
 
-Status: **PASS WITH FOLLOW-UP**. Orchestrator review accepted on 2026-09-13.
+Status: **PASS WITH FOLLOW-UP — INTEGRATED**. Orchestrator review accepted on
+2026-09-13 and integrated through PR #8 on 2026-09-15 at `4cf3f08`.
 Implementation reviewed: `29e0da44cbe4a2b60ea5e6675d577fb12e9f0563`.
 The four moderate development-tooling findings remain tracked; acceptance
-criteria pass. Integration is the next gate, before authentication work.
+criteria pass. Authentication contract work may proceed.
 
 The evidence below records the implementation handoff before integration.
 
@@ -16,8 +17,9 @@ The evidence below records the implementation handoff before integration.
 - Implementation commit: `29e0da44cbe4a2b60ea5e6675d577fb12e9f0563`,
   `feat: implement tenant-first local database foundation`.
 - Main checkout stayed on `main` at the base commit, with no changes.
-- No push, PR, merge, deployment, account setup or remote resource mutation.
-  Remote repository synchronization and billing were not reverified.
+- The implementation was later pushed, reviewed again sequentially, and merged
+  through PR #8. No deployment, account setup or remote infrastructure mutation
+  occurred; billing was not reverified.
 
 The resumed worktree already contained the database implementation but had no
 implementation commit or review report. This run inspected the implementation,

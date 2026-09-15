@@ -1,6 +1,7 @@
 # Local D1 / Drizzle foundation (PF-017)
 
-Status: ready for Orchestrator review; M3 is not complete.
+Status: integrated through PR #8; M3 completed on 2026-09-15. The four moderate
+development-tooling findings below remain tracked.
 
 ## Scope and versions
 

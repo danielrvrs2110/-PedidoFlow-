@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-09-13
+Last updated: 2026-09-15
 
 ## Completed
 
@@ -28,18 +28,22 @@ Last updated: 2026-09-13
   for desktop and mobile.
 - [x] PF-016 Define the tenant-first D1/Drizzle data model, invariants, and
   migration boundary.
+- [x] PF-017 Implement Drizzle schema, generated migrations, safe local seed
+  tooling, and tenant-isolation validation. Integrated through PR #8 at
+  `4cf3f08`; review: `docs/PF-017_REVIEW.md`.
+- [x] PF-018 Define the authentication and authorization contract before
+  integrating Better Auth. Contract: `docs/AUTHORIZATION.md`; decision:
+  DEC-008.
 
 ## Current
 
-- [ ] PF-017 Implement Drizzle schema, generated migrations, safe local seed
-  tooling, and tenant-isolation validation.
-  Status: PASS WITH FOLLOW-UP; implementation `29e0da4` reviewed and validated.
-  Pending GitHub integration. Evidence: `docs/PF-017_REVIEW.md`.
+- [ ] PF-019 Integrate the pinned Better Auth/D1 identity and database-backed
+  session foundation without business CRUD or organization provisioning.
 
 ## Next
 
-- Integrate reviewed PF-017, then define the authentication/authorization
-  contract as PF-018 before implementing Better Auth.
+- Implement PF-019 on a focused feature branch, then review its generated auth
+  migration, local auth behavior and existing routing regressions.
 
 ## Blocked
 
@@ -102,39 +106,31 @@ Last updated: 2026-09-13
   lint, typecheck, build, migration generation/check and repeated local
   migration/seed pass. Review accepted with development-tooling follow-up;
   see `docs/PF-017_REVIEW.md`.
+- PF-017 integration: sequential validation repeated on 2026-09-15 with 88
+  total tests and 71 D1/tooling tests; PR #8 merged cleanly into `main` at
+  `4cf3f08baad2923d52932dd42867cd74792b98dd`.
 
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
 - Pull requests #2–#6 merged the UX-foundation contracts and responsive shell
   implementation into `main`.
-- Verified on 2026-09-13: PR #7 merged PF-016 at `24f79be`; local `main`
-  and the live remote main ref match that commit.
-- PF-017 remains on its local feature branch without push, PR or merge.
+- PR #7 merged PF-016 at `24f79be`.
+- Verified on 2026-09-15: PR #8 merged PF-017 at `4cf3f08`; local `main`,
+  `origin/main`, and the live remote main ref matched that commit before the
+  PF-018 documentation branch was created.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
-
-## Tracking Discrepancies for Orchestrator Review
-
-- This checklist retains the original M0–M14 labels; `docs/ROADMAP.md` uses
-  M0–M9 and groups operational application work differently. PF-014 already
-  completed the basic shell, while the old M5 label remains unchecked.
-  Reconcile labels separately; no additional milestone is claimed complete.
 
 ## High-Level Milestones
 
 - [x] M0 — Product definition and architecture planning (preserved in the master document)
 - [x] M1 — Repository and environment foundation
 - [x] M2 — UX foundations and design system
-- [ ] M3 — Database and tenant model
+- [x] M3 — Database and tenant model
 - [ ] M4 — Authentication and authorization
-- [ ] M5 — Application shell
-- [ ] M6 — Catalog, inventory, customers, and pricing
-- [ ] M7 — Manual order engine
-- [ ] M8 — AI interpretation and matching
-- [ ] M9 — Inbox and review workflow
-- [ ] M10 — Picking, delivery, and payment states
-- [ ] M11 — Imports and WhatsApp integration
-- [ ] M12 — Dashboard and responsive UX
-- [ ] M13 — Testing, security, and production deployment
-- [ ] M14 — Documentation and client demo readiness
+- [ ] M5 — Operational application foundation
+- [ ] M6 — Interpretation and review
+- [ ] M7 — Fulfillment
+- [ ] M8 — Channels and imports
+- [ ] M9 — Quality and deployment
