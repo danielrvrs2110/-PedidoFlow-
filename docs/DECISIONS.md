@@ -67,3 +67,19 @@
   resource in another tenant.
 - Consequence: Drizzle schema, repositories, seeds, and tests carry explicit
   organization context and prove cross-tenant relationships fail.
+
+## DEC-007 — Local Foundation and Historical Guards
+
+- Date: 2026-09-11
+- Status: Accepted at PF-017 Orchestrator review on 2026-09-13.
+- Decision: Keep PF-017 D1 tooling in a dedicated local configuration and
+  persistence directory. Use a generated Drizzle foundation and a versioned
+  custom trigger migration for append-only events and confirmed price snapshots.
+- Reason: Local reset/seed must not target future production bindings, and SQL
+  checks/FKs alone cannot prevent rewriting historical rows.
+- Consequence: No runtime HTTP integration or remote resource is added. Future
+  domain transactions must respect `confirmed_at` as the snapshot boundary.
+  Drizzle snapshots do not model triggers; their SQL is tested directly in D1.
+- Alternatives: Application-only history protection would not protect against
+  accidental raw updates. A separate database/runtime would depart from the
+  approved stack and is unnecessary. This choice adds no provider cost.

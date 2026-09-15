@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-09-11
+Last updated: 2026-09-13
 
 ## Completed
 
@@ -33,10 +33,13 @@ Last updated: 2026-09-11
 
 - [ ] PF-017 Implement Drizzle schema, generated migrations, safe local seed
   tooling, and tenant-isolation validation.
+  Status: PASS WITH FOLLOW-UP; implementation `29e0da4` reviewed and validated.
+  Pending GitHub integration. Evidence: `docs/PF-017_REVIEW.md`.
 
 ## Next
 
-- Review the local database foundation before completing M3.
+- Integrate reviewed PF-017, then define the authentication/authorization
+  contract as PF-018 before implementing Better Auth.
 
 ## Blocked
 
@@ -44,6 +47,8 @@ Last updated: 2026-09-11
 
 ## Technical Debt
 
+- Four moderate findings in Drizzle Kit development dependencies remain;
+  `npm audit --omit=dev` reports zero. See `docs/DATABASE.md`.
 - The local directory is named `Solervia`; the Git repository is being treated as the independent PedidoFlow product repository.
 
 ## Important Decisions
@@ -92,14 +97,29 @@ Last updated: 2026-09-11
   migration boundary, and implementation acceptance criteria are defined in
   `docs/DATA_MODEL.md`; DEC-005 and DEC-006 record the material decisions.
 
+- PF-017: 22 domain tables, generated SQL/metadata, local history guards,
+  deterministic two-organization seed, 71 D1/tooling tests (88 total tests),
+  lint, typecheck, build, migration generation/check and repeated local
+  migration/seed pass. Review accepted with development-tooling follow-up;
+  see `docs/PF-017_REVIEW.md`.
+
 ## GitHub Status
 
 - Pull request #1 merged the foundation into `main` at commit `88419f8`.
 - Pull requests #2–#6 merged the UX-foundation contracts and responsive shell
   implementation into `main`.
-- Local `main` and `origin/main` are synchronized.
+- Verified on 2026-09-13: PR #7 merged PF-016 at `24f79be`; local `main`
+  and the live remote main ref match that commit.
+- PF-017 remains on its local feature branch without push, PR or merge.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
+
+## Tracking Discrepancies for Orchestrator Review
+
+- This checklist retains the original M0–M14 labels; `docs/ROADMAP.md` uses
+  M0–M9 and groups operational application work differently. PF-014 already
+  completed the basic shell, while the old M5 label remains unchecked.
+  Reconcile labels separately; no additional milestone is claimed complete.
 
 ## High-Level Milestones
 
