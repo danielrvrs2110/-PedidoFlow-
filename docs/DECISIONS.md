@@ -83,3 +83,23 @@
 - Alternatives: Application-only history protection would not protect against
   accidental raw updates. A separate database/runtime would depart from the
   approved stack and is unnecessary. This choice adds no provider cost.
+
+## DEC-008 — Identity and Domain Authorization Boundary
+
+- Date: 2026-09-15
+- Status: Accepted as the PF-018 implementation contract.
+- Decision: Better Auth owns users, accounts, verification records and
+  database-backed opaque sessions. PedidoFlow owns organizations, memberships,
+  roles and business authorization. The first implementation uses same-origin
+  cookies and does not use stateless JWT sessions, secondary storage,
+  cross-subdomain cookies or Better Auth's organization plugin.
+- Reason: The domain schema already defines tenant membership and role
+  invariants. Keeping identity separate avoids duplicate ownership while
+  server-derived membership context protects every business query.
+- Consequence: Better Auth's exact versioned schema must be generated into a new
+  migration. A session alone never grants tenant access; middleware must verify
+  active membership and organization state before constructing repository
+  context. Session cookie caching starts disabled to preserve prompt revocation.
+- Alternatives: The organization plugin would duplicate the current membership
+  model. Stateless JWTs or a secondary store would add revocation complexity or
+  infrastructure without an MVP requirement.
