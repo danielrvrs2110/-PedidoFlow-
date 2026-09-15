@@ -22,10 +22,12 @@
     "db:migrate:local": "node scripts/db/local.mjs migrate",
     "db:seed:local": "node scripts/db/local.mjs seed",
     "db:inspect:local": "node scripts/db/local.mjs inspect",
-    "test:db": "vitest run worker/db/database.test.ts"
+    "test:db": "vitest run worker/db/database.test.ts",
+    "test:auth": "vitest run worker/auth.test.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "better-auth": "1.6.26",
     "drizzle-orm": "0.45.2",
     "hono": "^4.10.7",
     "react": "^19.2.8",

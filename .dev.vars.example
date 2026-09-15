@@ -1,2 +1,5 @@
-# Worker secrets for local development belong here when integrations are added.
-# Never commit a populated .dev.vars file.
+# Generate a unique local value with at least 32 characters. Never reuse it in a deployment.
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:5173
+BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:5173
+PEDIDOFLOW_ENVIRONMENT=local

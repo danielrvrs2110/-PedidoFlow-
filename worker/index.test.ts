@@ -12,6 +12,11 @@ describe('PedidoFlow API', () => {
     })
   })
 
+  it('keeps the Worker outside the auth mount from requiring auth bindings', async () => {
+    const response = await app.request('/api/health')
+    expect(response.status).toBe(200)
+  })
+
   it('returns a structured 404 for unknown API routes', async () => {
     const response = await app.request('/api/unknown')
 

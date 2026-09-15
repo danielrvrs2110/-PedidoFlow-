@@ -2,6 +2,8 @@ import { sql } from 'drizzle-orm'
 import { check, index, integer, primaryKey, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'
 import { allowed, currencyCheck, exactInteger, identity, tenantKey, tenantReference, timestamps } from './helpers.js'
 
+export * from './auth.js'
+
 export const organizations = sqliteTable('organizations', {
   id: text('id').primaryKey().notNull(),
   name: text('name').notNull(),
