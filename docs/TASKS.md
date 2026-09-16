@@ -39,11 +39,13 @@ Last updated: 2026-09-15
 
 - [ ] PF-019 Integrate the pinned Better Auth/D1 identity and database-backed
   session foundation without business CRUD or organization provisioning.
+  Status: PASS WITH FOLLOW-UP; pending GitHub integration. Evidence:
+  `docs/PF-019_REVIEW.md`.
 
 ## Next
 
-- Implement PF-019 on a focused feature branch, then review its generated auth
-  migration, local auth behavior and existing routing regressions.
+- Integrate reviewed PF-019, then define PF-020 for server-derived organization
+  context and role authorization middleware.
 
 ## Blocked
 
@@ -109,6 +111,10 @@ Last updated: 2026-09-15
 - PF-017 integration: sequential validation repeated on 2026-09-15 with 88
   total tests and 71 D1/tooling tests; PR #8 merged cleanly into `main` at
   `4cf3f08baad2923d52932dd42867cd74792b98dd`.
+- PF-019: Better Auth 1.6.26, generated auth schema, local/test-only signup,
+  database-backed session lifecycle and response redaction pass 97 total tests,
+  including 71 database/tooling and 8 auth tests. Review:
+  `docs/PF-019_REVIEW.md`.
 
 ## GitHub Status
 
