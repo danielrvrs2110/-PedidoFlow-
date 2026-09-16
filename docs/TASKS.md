@@ -34,18 +34,19 @@ Last updated: 2026-09-15
 - [x] PF-018 Define the authentication and authorization contract before
   integrating Better Auth. Contract: `docs/AUTHORIZATION.md`; decision:
   DEC-008.
-
+- [x] PF-019 Integrate the pinned Better Auth/D1 identity and database-backed
+  session foundation without business CRUD or organization provisioning.
+  Integrated through PR #10 at `018a683`; review: `docs/PF-019_REVIEW.md`.
 ## Current
 
-- [ ] PF-019 Integrate the pinned Better Auth/D1 identity and database-backed
-  session foundation without business CRUD or organization provisioning.
-  Status: PASS WITH FOLLOW-UP; pending GitHub integration. Evidence:
-  `docs/PF-019_REVIEW.md`.
+- [ ] PF-020 Implement server-derived organization context and centralized
+  role/capability authorization. Status: PASS; pending orchestrator review and
+  GitHub integration. Evidence: `docs/PF-020_REVIEW.md`.
 
 ## Next
 
-- Integrate reviewed PF-019, then define PF-020 for server-derived organization
-  context and role authorization middleware.
+- Review and integrate PF-020, then define the smallest protected-route/login
+  UI task without adding organization provisioning.
 
 ## Blocked
 
@@ -115,6 +116,14 @@ Last updated: 2026-09-15
   database-backed session lifecycle and response redaction pass 97 total tests,
   including 71 database/tooling and 8 auth tests. Review:
   `docs/PF-019_REVIEW.md`.
+- PF-019 integration: PR #10 merged into `main` at
+  `018a683a51b8928e13bd54091e0fae1ac9cfb938`.
+- PF-020: verified Better Auth session plus exactly one active membership and
+  active organization constructs the typed server context. Zero, invited,
+  suspended and multiple-membership cases fail closed. The centralized role
+  matrix and two-tenant/forgery coverage pass 107 total tests, including 10
+  authorization, 8 authentication and 71 D1/tooling tests. Review:
+  `docs/PF-020_REVIEW.md`.
 
 ## GitHub Status
 
@@ -125,6 +134,8 @@ Last updated: 2026-09-15
 - Verified on 2026-09-15: PR #8 merged PF-017 at `4cf3f08`; local `main`,
   `origin/main`, and the live remote main ref matched that commit before the
   PF-018 documentation branch was created.
+- PR #10 merged PF-019 into `main` at
+  `018a683a51b8928e13bd54091e0fae1ac9cfb938`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 
