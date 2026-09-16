@@ -40,6 +40,18 @@ function sessionCookie(response: Response) {
   return setCookie.split(';', 1)[0]
 }
 
+function expectNoSensitiveAuthFields(value: unknown) {
+  if (Array.isArray(value)) {
+    value.forEach(expectNoSensitiveAuthFields)
+    return
+  }
+  if (!value || typeof value !== 'object') return
+  for (const [key, nested] of Object.entries(value)) {
+    expect(['token', 'accessToken', 'refreshToken', 'idToken', 'password']).not.toContain(key)
+    expectNoSensitiveAuthFields(nested)
+  }
+}
+
 beforeAll(async () => {
   // A single ephemeral workerd/D1 instance; no PF-017 local persistence is opened.
   const platform = await getPlatformProxy<{ DB: D1Database }>({
@@ -80,7 +92,7 @@ describe('Better Auth identity and database-backed sessions', () => {
     expect(await response.text()).not.toContain(password)
   })
 
-  it('returns equivalent non-enumerating duplicate-email and invalid-credential errors', async () => {
+  it('does not include submitted identities in duplicate-email or invalid-credential errors', async () => {
     const duplicate = await request('/api/auth/sign-up/email', {
       name: 'Otra Persona', email: 'local@example.test', password,
     })
@@ -107,10 +119,23 @@ describe('Better Auth identity and database-backed sessions', () => {
 
     const active = await request('/api/auth/get-session', undefined, 'test', { cookie })
     expect(active.status).toBe(200)
-    const activeText = await active.text()
+    const activePayload = await active.json<Record<string, unknown>>()
+    const activeText = JSON.stringify(activePayload)
     expect(activeText).toContain('local@example.test')
     expect(activeText).not.toContain(password)
     expect(activeText).not.toContain(cookie.split('=', 2)[1])
+    expectNoSensitiveAuthFields(activePayload)
+    const storedSession = await db.prepare('SELECT token FROM session LIMIT 1').first<{ token: string }>()
+    expect(storedSession?.token).toBeTruthy()
+    expect(activeText).not.toContain(storedSession!.token)
+
+    const listed = await request('/api/auth/list-sessions', undefined, 'test', { cookie })
+    expect(listed.status).toBe(200)
+    const listedPayload = await listed.json<unknown>()
+    const listedText = JSON.stringify(listedPayload)
+    expectNoSensitiveAuthFields(listedPayload)
+    expect(listedText).not.toContain(storedSession!.token)
+    expect(listedText).not.toContain(cookie.split('=', 2)[1])
     const beforeLogout = await db.prepare('SELECT count(*) AS count FROM session').first<{ count: number }>()
 
     const logout = await request('/api/auth/sign-out', {}, 'test', { cookie })

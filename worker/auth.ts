@@ -76,17 +76,34 @@ export function createAuth(bindings: AuthBindings) {
   })
 }
 
+const sensitiveAuthResponseKeys = new Set([
+  'token',
+  'accessToken',
+  'refreshToken',
+  'idToken',
+  'password',
+])
+
+function sanitizeAuthPayload(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(sanitizeAuthPayload)
+  if (!value || typeof value !== 'object') return value
+
+  return Object.fromEntries(
+    Object.entries(value).flatMap(([key, nested]) =>
+      sensitiveAuthResponseKeys.has(key) ? [] : [[key, sanitizeAuthPayload(nested)]]),
+  )
+}
+
 export async function handleAuthRequest(request: Request, bindings: AuthBindings) {
   const response = await createAuth(bindings).handler(request)
   if (!response.headers.get('content-type')?.includes('application/json')) return response
 
   const payload = await response.clone().json<Record<string, unknown> | null>()
-  if (payload && 'token' in payload) delete payload.token
   if (payload?.code === 'USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL') {
     return Response.json(
       { code: 'AUTHENTICATION_FAILED', message: 'Authentication failed' },
       { status: 400, headers: response.headers },
     )
   }
-  return Response.json(payload, { status: response.status, headers: response.headers })
+  return Response.json(sanitizeAuthPayload(payload), { status: response.status, headers: response.headers })
 }

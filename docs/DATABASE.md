@@ -59,8 +59,8 @@ runtime after all tests. No development database is opened by the tests.
 `vitest.config.ts` uses the Node environment and React JSX support separately
 from the application Vite configuration. This avoids the Cloudflare application
 plugin rejecting Vitest's injected `resolve.external` settings; D1 tests own
-their runtime lifecycle. The full suite has 88 tests, including 71 database and
-local-tooling tests.
+their runtime lifecycle. The PF-019 full suite has 97 tests, including 71
+database/local-tooling tests and 8 authentication tests.
 
 `db:reset:local` removes **only** this checkout's `.wrangler/pf017-local`
 persistence. It does not migrate automatically. `db:migrate:local` applies
@@ -241,11 +241,12 @@ guards their SHA-256 values as well as full current migration drift.
 
 The generated core tables are `user`, `session`, `account`, and `verification`.
 Session tokens are opaque and persisted in D1; cookie caching and secondary
-storage are disabled. API responses remove Better Auth's redundant token field
-while retaining its HTTP-only same-origin cookie. Account password and provider
-token columns are never returned by PedidoFlow handlers. The auth schema does
-not add foreign keys to PedidoFlow memberships and creates no organization or
-membership during signup.
+storage are disabled. API responses recursively remove Better Auth session,
+account and provider token/password fields while retaining the HTTP-only
+same-origin cookie. Tests compare session responses with the raw token stored in
+D1 and cover both current-session and session-list responses. The auth schema
+does not add foreign keys to PedidoFlow memberships and creates no organization
+or membership during signup.
 
 `BETTER_AUTH_URL`, `BETTER_AUTH_TRUSTED_ORIGINS`, `BETTER_AUTH_SECRET`, and
 `PEDIDOFLOW_ENVIRONMENT` are validated server bindings. Trusted origins are an
