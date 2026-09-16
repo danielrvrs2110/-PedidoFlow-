@@ -14,8 +14,13 @@ Status: **PASS; pending orchestrator review and GitHub integration**.
   `403 selection_required`; no valid session returns `401 unauthenticated`.
 - The centralized typed capability matrix distinguishes full operational reads
   from picker fulfillment reads and encodes owner-only owner management.
+- Existing catalog repository methods enforce that matrix: product reads require
+  operational-read capability, while activation and alias deletion require
+  catalog/customer/pricing management capability. Picker calls fail with a
+  typed safe authorization error before D1 access.
 - `GET /api/context` is the only new route. It returns safe context identifiers
-  for integration and later shell work; it never returns session material.
+  for integration and later shell work; it never returns session material and
+  all success/error responses disable caching.
 
 No organization provisioning, membership mutation, switching, business CRUD,
 UI, OAuth, deployment, external infrastructure or migration was added.
@@ -38,10 +43,10 @@ All runtime commands were sequential and used npm 11.19.1:
 
 - clean install: 145 packages;
 - lint and typecheck: pass;
-- full suite: 6 files, 107 tests pass;
+- full suite: 6 files, 115 tests pass;
 - focused authorization: 10 tests pass;
 - focused authentication: 8 tests pass;
-- focused database/tooling: 71 tests pass;
+- focused database/tooling: 79 tests pass;
 - production build and `git diff --check`: pass;
 - Drizzle generation: 26 tables, no schema changes;
 - `db:check`: no drift and immutable PF-017 hashes pass;

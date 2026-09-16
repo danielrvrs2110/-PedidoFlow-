@@ -121,8 +121,9 @@ Last updated: 2026-09-15
 - PF-020: verified Better Auth session plus exactly one active membership and
   active organization constructs the typed server context. Zero, invited,
   suspended and multiple-membership cases fail closed. The centralized role
-  matrix and two-tenant/forgery coverage pass 107 total tests, including 10
-  authorization, 8 authentication and 71 D1/tooling tests. Review:
+  matrix, repository enforcement and two-tenant/forgery coverage pass 115 total
+  tests, including 10 authorization, 8 authentication and 79 D1/tooling tests.
+  Review:
   `docs/PF-020_REVIEW.md`.
 
 ## GitHub Status

@@ -43,6 +43,20 @@ export function hasCapability(role: OrganizationRole, capability: OrganizationCa
   return (capabilitiesByRole[role] as readonly OrganizationCapability[]).includes(capability)
 }
 
+export class AuthorizationError extends Error {
+  readonly code = 'forbidden' as const
+  readonly status = 403 as const
+
+  constructor() {
+    super('Forbidden')
+    this.name = 'AuthorizationError'
+  }
+}
+
+export function requireCapability(context: OrganizationContext, capability: OrganizationCapability) {
+  if (!hasCapability(context.role, capability)) throw new AuthorizationError()
+}
+
 export type OrganizationContextFailure =
   | { readonly type: 'unauthenticated' }
   | { readonly type: 'no_access' }
@@ -87,14 +101,15 @@ export async function resolveOrganizationContext(
 
 export async function handleOrganizationContextRequest(request: Request, bindings: AuthBindings) {
   const result = await resolveOrganizationContext(request, bindings)
-  if (result.ok) return Response.json(result.context)
+  const headers = { 'cache-control': 'no-store', pragma: 'no-cache' }
+  if (result.ok) return Response.json(result.context, { headers })
   if (result.failure.type === 'unauthenticated') {
-    return Response.json({ error: 'unauthenticated', message: 'Authentication required' }, { status: 401 })
+    return Response.json({ error: 'unauthenticated', message: 'Authentication required' }, { status: 401, headers })
   }
   return Response.json(
     { error: result.failure.type, message: result.failure.type === 'selection_required'
       ? 'Organization selection is required'
       : 'No active organization access' },
-    { status: 403 },
+    { status: 403, headers },
   )
 }

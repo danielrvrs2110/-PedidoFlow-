@@ -1,6 +1,6 @@
 import { and, eq, exists } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/d1'
-import type { OrganizationContext } from '../authorization.js'
+import { requireCapability, type OrganizationContext } from '../authorization.js'
 import { organizations, productAliases, products } from './schema/index.js'
 
 export function catalogRepository(binding: D1Database, context: OrganizationContext) {
@@ -13,15 +13,18 @@ export function catalogRepository(binding: D1Database, context: OrganizationCont
     .where(and(eq(organizations.id, organizationId), eq(organizations.status, 'active'))))
   return {
     findProduct(id: string) {
+      requireCapability(context, 'read_operational_data')
       return db.select().from(products)
         .where(and(eq(products.organizationId, organizationId), eq(products.id, id))).get()
     },
     async setProductActive(id: string, active: boolean) {
+      requireCapability(context, 'manage_catalog_customers_pricing')
       return db.update(products).set({ active: active ? 1 : 0, updatedAt: Date.now() })
         .where(and(eq(products.organizationId, organizationId), eq(products.id, id), activeOrganization))
         .returning({ id: products.id }).get()
     },
     async removeAlias(id: string) {
+      requireCapability(context, 'manage_catalog_customers_pricing')
       return db.delete(productAliases)
         .where(and(eq(productAliases.organizationId, organizationId), eq(productAliases.id, id), activeOrganization))
         .returning({ id: productAliases.id }).get()

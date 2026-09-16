@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { getPlatformProxy } from 'wrangler'
+import { AuthorizationError, type OrganizationRole } from '../authorization.js'
 import { catalogRepository, normalizeProductAlias } from './repository.js'
 
 const root = fileURLToPath(new URL('../../', import.meta.url).href)
@@ -79,6 +80,37 @@ describe('D1 local database foundation', () => {
     expect(await repository.removeAlias('alias_dev_valle')).toBeUndefined()
     expect((await repository.findProduct('prod_dev_valle'))?.active).toBe(1)
     await run(`UPDATE organizations SET status='active' WHERE id='${orgA}'`)
+  })
+
+  it.each([
+    ['owner', true], ['admin', true], ['operator', true], ['picker', false],
+  ] as const)('enforces operational catalog reads for %s', async (role, allowed) => {
+    const repository = catalogRepository(db, { organizationId: orgA, actorUserId: `user_${role}`, role })
+    if (allowed) {
+      expect((await repository.findProduct('prod_dev_valle'))?.organizationId).toBe(orgA)
+      expect(await repository.findProduct('prod_dev_abastos')).toBeUndefined()
+    } else {
+      expect(() => repository.findProduct('prod_dev_valle')).toThrow(AuthorizationError)
+      expect(() => repository.findProduct('prod_dev_abastos')).toThrow(AuthorizationError)
+    }
+  })
+
+  it.each([
+    ['owner', true], ['admin', true], ['operator', true], ['picker', false],
+  ] as const)('enforces catalog mutations for %s', async (role: OrganizationRole, allowed: boolean) => {
+    const repository = catalogRepository(db, { organizationId: orgA, actorUserId: `user_${role}`, role })
+    const aliasId = `alias_capability_${role}`
+    await run(`INSERT INTO product_aliases SELECT '${aliasId}',organization_id,product_id,'Cap ${role}','cap ${role}',source,created_at,updated_at FROM product_aliases WHERE id='alias_dev_valle'`)
+    if (allowed) {
+      await expect(repository.setProductActive('prod_dev_valle', false)).resolves.toEqual({ id: 'prod_dev_valle' })
+      await repository.setProductActive('prod_dev_valle', true)
+      await expect(repository.removeAlias(aliasId)).resolves.toEqual({ id: aliasId })
+    } else {
+      await expect(repository.setProductActive('prod_dev_valle', false)).rejects.toBeInstanceOf(AuthorizationError)
+      await expect(repository.removeAlias(aliasId)).rejects.toBeInstanceOf(AuthorizationError)
+      expect(await row(`SELECT count(*) AS count FROM product_aliases WHERE id='${aliasId}'`)).toEqual({ count: 1 })
+      await run(`DELETE FROM product_aliases WHERE id='${aliasId}'`)
+    }
   })
 
   it.each([

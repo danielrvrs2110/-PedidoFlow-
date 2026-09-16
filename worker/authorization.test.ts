@@ -30,6 +30,11 @@ function request(path: string, cookie?: string, headers?: HeadersInit) {
   }, bindings())
 }
 
+function expectPrivateResponse(response: Response) {
+  expect(response.headers.get('cache-control')).toBe('no-store')
+  expect(response.headers.get('pragma')).toBe('no-cache')
+}
+
 async function signUp(label: string) {
   const email = `${label}@example.test`
   const response = await app.request(`${baseURL}/api/auth/sign-up/email`, {
@@ -91,6 +96,7 @@ describe('server-derived organization context', () => {
   it('returns 401 without a valid Better Auth session', async () => {
     const response = await request('/api/context')
     expect(response.status).toBe(401)
+    expectPrivateResponse(response)
     await expect(response.json()).resolves.toEqual({
       error: 'unauthenticated', message: 'Authentication required',
     })
@@ -103,6 +109,7 @@ describe('server-derived organization context', () => {
   ])('returns typed no_access for %s (%s)', async label => {
     const response = await request('/api/context', cookies.get(label))
     expect(response.status).toBe(403)
+    expectPrivateResponse(response)
     await expect(response.json()).resolves.toEqual({
       error: 'no_access', message: 'No active organization access',
     })
@@ -117,6 +124,7 @@ describe('server-derived organization context', () => {
       { 'x-organization-id': 'org_active_b', 'x-role': 'owner', 'x-actor-user-id': 'forged' },
     )
     expect(response.status).toBe(200)
+    expectPrivateResponse(response)
     const payload = await response.json<Record<string, unknown>>()
     expect(payload).toEqual({
       organizationId: 'org_active_a',
@@ -138,6 +146,7 @@ describe('server-derived organization context', () => {
   it('fails closed with selection_required for multiple active memberships', async () => {
     const response = await request('/api/context', cookies.get('multiple'))
     expect(response.status).toBe(403)
+    expectPrivateResponse(response)
     await expect(response.json()).resolves.toEqual({
       error: 'selection_required', message: 'Organization selection is required',
     })
