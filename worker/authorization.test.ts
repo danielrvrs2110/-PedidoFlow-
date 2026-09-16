@@ -1,6 +1,6 @@
 import { readFile, readdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { getPlatformProxy } from 'wrangler'
 import app from './index.js'
 import { hasCapability, organizationCapabilities, type OrganizationRole } from './authorization.js'
@@ -109,6 +109,8 @@ describe('server-derived organization context', () => {
   })
 
   it('constructs context from the sole active membership and ignores forgeable client identifiers', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
     const response = await request(
       '/api/context?organizationId=org_active_b&actorUserId=forged&role=owner',
       cookies.get('single'),
@@ -126,6 +128,11 @@ describe('server-derived organization context', () => {
       .bind(userIds.get('single')).first<{ token: string }>()
     expect(text).not.toContain(stored!.token)
     expect(text).not.toContain('session_token')
+    const logOutput = JSON.stringify([...error.mock.calls, ...warn.mock.calls])
+    expect(logOutput).not.toContain(stored!.token)
+    expect(logOutput).not.toContain('session_token')
+    error.mockRestore()
+    warn.mockRestore()
   })
 
   it('fails closed with selection_required for multiple active memberships', async () => {
