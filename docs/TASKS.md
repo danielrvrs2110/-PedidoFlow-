@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-09-15
+Last updated: 2026-09-16
 
 ## Completed
 
@@ -37,15 +37,19 @@ Last updated: 2026-09-15
 - [x] PF-019 Integrate the pinned Better Auth/D1 identity and database-backed
   session foundation without business CRUD or organization provisioning.
   Integrated through PR #10 at `018a683`; review: `docs/PF-019_REVIEW.md`.
+- [x] PF-020 Implement server-derived organization context and centralized
+  role/capability authorization. Integrated through PR #11 at `793371e`;
+  review: `docs/PF-020_REVIEW.md`.
 ## Current
 
-- [ ] PF-020 Implement server-derived organization context and centralized
-  role/capability authorization. Status: PASS; pending orchestrator review and
-  GitHub integration. Evidence: `docs/PF-020_REVIEW.md`.
+- [ ] PF-021 Wire the Vite Worker to a strictly local D1 binding and safe local
+  auth variables, with explicit preparation and an isolated end-to-end HTTP
+  smoke. Status: implementation complete; pending orchestrator review and
+  integration. Evidence: `docs/PF-021_REVIEW.md`.
 
 ## Next
 
-- Review and integrate PF-020, then define the smallest protected-route/login
+- Review and integrate PF-021, then define the smallest protected-route/login
   UI task without adding organization provisioning.
 
 ## Blocked
@@ -125,6 +129,14 @@ Last updated: 2026-09-15
   tests, including 10 authorization, 8 authentication and 79 D1/tooling tests.
   Review:
   `docs/PF-020_REVIEW.md`.
+- PF-020 integration: PR #11 merged into `main` at
+  `793371e6542d7697efe8ade978394c69be10deba`.
+- PF-021: `npm run dev:prepare` creates an ignored random local auth secret when
+  absent and applies pending migrations without reset or seed. `npm run dev`
+  uses the local-only D1 config and the same locked persistence. The isolated
+  HTTP smoke exercises signup, login, redacted session lookup, organization
+  context, logout and revocation through the real Vite Worker runtime. Review:
+  `docs/PF-021_REVIEW.md`.
 
 ## GitHub Status
 
@@ -137,6 +149,8 @@ Last updated: 2026-09-15
   PF-018 documentation branch was created.
 - PR #10 merged PF-019 into `main` at
   `018a683a51b8928e13bd54091e0fae1ac9cfb938`.
+- PR #11 merged PF-020 into `main` at
+  `793371e6542d7697efe8ade978394c69be10deba`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 

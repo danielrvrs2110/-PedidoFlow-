@@ -53,6 +53,23 @@ npm run db:seed:local
 npm run db:inspect:local
 ```
 
+For the interactive Worker runtime, prepare and start it in two explicit steps:
+
+```bash
+npm run dev:prepare
+npm run dev
+```
+
+`dev:prepare` creates `config/local/.dev.vars` with a random local-only auth secret only when
+that ignored file is absent, then applies pending migrations to
+`.wrangler/pf017-local`. It does not reset or seed. `npm run dev` uses
+`config/local/wrangler.jsonc`, refuses a missing/invalid local secret, and opens the
+same persistence without applying migrations or fixtures. Because both flows
+use `.wrangler/pf017-local.lock`, database commands must run only after the Vite
+server stops. Use `npm run test:local-runtime` for an isolated HTTP lifecycle;
+it creates and removes a separate `.wrangler/pf021-smoke-*` persistence and does
+not open the development database.
+
 `npm run test:db` runs the database suite alone. It starts one ephemeral D1
 instance, applies all committed migrations, seeds two organizations, and disposes the
 runtime after all tests. No development database is opened by the tests.
@@ -69,12 +86,25 @@ the PF-017 migrations plus the PF-019 auth migration; a repeated invocation prin
 tables, development organizations, product counts, and the migration ledger.
 Expected FK outputs are `foreign_keys: 1` and an empty `foreign_key_check` result.
 
-The dedicated `wrangler.database.json` has an unmistakable development name,
+The dedicated `wrangler.database.json` and `config/local/wrangler.jsonc` have
+unmistakable development names,
 a fixed synthetic database ID and `remote: false`. It is not a deployable
-production binding. The application Worker adds only Better Auth's required
-`nodejs_compat` flag; it does not invent a deployable D1 database ID. A future
+production binding. Vite selects the local configuration only for `serve`;
+build and deploy input remains `wrangler.jsonc`, which deliberately has no D1
+binding. The application Worker adds only Better Auth's required `nodejs_compat`
+flag; it does not invent a deployable D1 database ID. A future
 infrastructure task must provision and deliberately wire the real application
 binding before preview or production deployment.
+
+The Cloudflare Vite plugin's documented `configPath` and `persistState` options
+make the configuration and persistence selection explicit. Local D1 bindings
+are simulated by default, and Wrangler CLI plus Vite can share state when they
+use the same path. Secrets belong in the ignored `.dev.vars` beside the local
+configuration, not `vars` or Git:
+
+- [Cloudflare Vite plugin API](https://developers.cloudflare.com/workers/vite-plugin/reference/api/)
+- [Local resource data and shared persistence](https://developers.cloudflare.com/workers/local-development/local-data/)
+- [Local environment variables and secrets](https://developers.cloudflare.com/workers/local-development/environment-variables/)
 
 All reset/migrate/seed/inspect commands take **zero additional arguments**.
 They fail before touching state for `--remote`, `--local`, custom configurations,
@@ -86,9 +116,11 @@ persistence paths and serialize use with `.wrangler/pf017-local.lock`.
 
 Do not run a manually started workerd/Wrangler instance against that same
 persistence while these commands run. The project lock covers project scripts,
-not arbitrary external processes. If a process is forcibly killed, first verify
-that it is stopped, then remove the empty stale lock directory with
-`rmdir .wrangler/pf017-local.lock`. Never reset another checkout's persistence.
+not arbitrary external processes. The lock records its owner PID; after a forced
+process termination, the next project command replaces the lock only when that
+PID no longer exists. An invalid lock without a valid owner is not removed
+automatically: verify that no runtime is active before cleaning it manually.
+Never reset another checkout's persistence.
 
 ## Migrations and reproducibility
 

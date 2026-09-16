@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { mkdir, readFile, realpath, rm, lstat } from 'node:fs/promises'
+import { mkdir, readFile, realpath, rm, lstat, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -35,7 +35,28 @@ if (!(await realpath(state)).startsWith(`${await realpath(root)}${path.sep}`)) {
 }
 // Atomic lock outside persistence: never run two project tools against the same files.
 const lock = path.join(root, '.wrangler', 'pf017-local.lock')
-await mkdir(lock)
+async function acquireLock() {
+  try {
+    await mkdir(lock)
+  } catch (error) {
+    if (error.code !== 'EEXIST') throw error
+    const owner = Number.parseInt(await readFile(path.join(lock, 'owner.pid'), 'utf8').catch(() => ''), 10)
+    if (!Number.isSafeInteger(owner) || owner <= 0) {
+      throw new Error('Local D1 lock is stale or invalid. Verify no runtime is active, then remove the lock directory.')
+    }
+    try {
+      process.kill(owner, 0)
+      throw new Error('Local D1 is busy. Stop npm run dev or the other database command before retrying.')
+    } catch (ownerError) {
+      if (ownerError.code !== 'ESRCH') throw ownerError
+    }
+    await rm(lock, { recursive: true })
+    await mkdir(lock)
+  }
+  await writeFile(path.join(lock, 'owner.pid'), `${process.pid}\n`, { flag: 'wx' })
+}
+
+await acquireLock()
 try {
   if (action === 'reset') {
     await rm(state, { recursive: true })
