@@ -23,7 +23,8 @@
     "db:seed:local": "node scripts/db/local.mjs seed",
     "db:inspect:local": "node scripts/db/local.mjs inspect",
     "test:db": "vitest run worker/db/database.test.ts",
-    "test:auth": "vitest run worker/auth.test.ts"
+    "test:auth": "vitest run worker/auth.test.ts",
+    "test:authz": "vitest run worker/authorization.test.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

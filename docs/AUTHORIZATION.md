@@ -1,6 +1,7 @@
 # Authentication and Authorization Contract (PF-018)
 
-Status: accepted implementation contract; no authentication code is included.
+Status: accepted contract; PF-019 identity/session and PF-020 organization
+authorization foundations are implemented. UI and provisioning remain pending.
 
 ## Purpose
 
@@ -151,10 +152,10 @@ implementation.
 
 ## Implementation Sequence
 
-PF-019 is the next task: integrate a pinned Better Auth version, generated auth
-schema/migration and server handler against local D1, with no business CRUD.
-Subsequent small tasks add organization-context middleware, role authorization,
-the login/logout UI and protected-route behavior, then end-to-end isolation QA.
+PF-019 integrated the pinned Better Auth identity/session foundation. PF-020
+adds the verified organization context and centralized role/capability floor.
+Subsequent small tasks may add login/logout UI and protected-route behavior,
+then provisioning and validated organization switching under explicit scopes.
 
 ## Acceptance Criteria for PF-019
 
