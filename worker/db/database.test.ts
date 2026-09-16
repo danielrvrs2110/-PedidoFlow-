@@ -39,12 +39,17 @@ describe('D1 local database foundation', () => {
   it('enforces foreign keys in real D1 and seeds all 22 domain tables twice without changes', async () => {
     expect(await row('PRAGMA foreign_keys')).toEqual({ foreign_keys: 1 })
     const tables = (await db.prepare("SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_cf_%' ORDER BY name").all<{ name: string }>()).results
-    expect(tables).toHaveLength(22)
-    const before = await Promise.all(tables.map(({ name }) => db.prepare(`SELECT * FROM ${name} ORDER BY organization_id`).all().catch(() => db.prepare(`SELECT * FROM ${name} ORDER BY id`).all())))
+    expect(tables).toHaveLength(26)
+    const domainTables = tables.filter(({ name }) => !['account', 'session', 'user', 'verification'].includes(name))
+    expect(domainTables).toHaveLength(22)
+    const before = await Promise.all(domainTables.map(({ name }) => db.prepare(`SELECT * FROM ${name} ORDER BY organization_id`).all().catch(() => db.prepare(`SELECT * FROM ${name} ORDER BY id`).all())))
     await db.batch(seed.map(sql => db.prepare(sql)))
-    const after = await Promise.all(tables.map(({ name }) => db.prepare(`SELECT * FROM ${name} ORDER BY organization_id`).all().catch(() => db.prepare(`SELECT * FROM ${name} ORDER BY id`).all())))
+    const after = await Promise.all(domainTables.map(({ name }) => db.prepare(`SELECT * FROM ${name} ORDER BY organization_id`).all().catch(() => db.prepare(`SELECT * FROM ${name} ORDER BY id`).all())))
     expect(after.map(result => result.results)).toEqual(before.map(result => result.results))
     expect(after.every(result => result.results.length === 2)).toBe(true)
+    for (const name of ['account', 'session', 'user', 'verification']) {
+      await expect(db.prepare(`SELECT count(*) AS count FROM ${name}`).first()).resolves.toEqual({ count: 0 })
+    }
     expect((await db.prepare('PRAGMA foreign_key_check').all()).results).toEqual([])
   })
 

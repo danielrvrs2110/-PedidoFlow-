@@ -54,27 +54,27 @@ npm run db:inspect:local
 ```
 
 `npm run test:db` runs the database suite alone. It starts one ephemeral D1
-instance, applies both migrations, seeds two organizations, and disposes the
+instance, applies all committed migrations, seeds two organizations, and disposes the
 runtime after all tests. No development database is opened by the tests.
 `vitest.config.ts` uses the Node environment and React JSX support separately
 from the application Vite configuration. This avoids the Cloudflare application
 plugin rejecting Vitest's injected `resolve.external` settings; D1 tests own
-their runtime lifecycle. The full suite has 88 tests, including 71 database and
-local-tooling tests.
+their runtime lifecycle. The PF-019 full suite has 97 tests, including 71
+database/local-tooling tests and 8 authentication tests.
 
 `db:reset:local` removes **only** this checkout's `.wrangler/pf017-local`
 persistence. It does not migrate automatically. `db:migrate:local` applies
-`0000_foundation.sql` and `0001_history_guards.sql`; a repeated invocation prints
+the PF-017 migrations plus the PF-019 auth migration; a repeated invocation prints
 `No migrations to apply!`. `db:inspect:local` shows FK enforcement, FK violations,
 tables, development organizations, product counts, and the migration ledger.
 Expected FK outputs are `foreign_keys: 1` and an empty `foreign_key_check` result.
 
 The dedicated `wrangler.database.json` has an unmistakable development name,
 a fixed synthetic database ID and `remote: false`. It is not a deployable
-production binding. Existing `wrangler.jsonc`, Vite development, production
-configuration and generated Worker types remain unchanged; D1's type already
-exists in the generated types. The future API integration must deliberately
-wire a binding to the application after authentication is implemented.
+production binding. The application Worker adds only Better Auth's required
+`nodejs_compat` flag; it does not invent a deployable D1 database ID. A future
+infrastructure task must provision and deliberately wire the real application
+binding before preview or production deployment.
 
 All reset/migrate/seed/inspect commands take **zero additional arguments**.
 They fail before touching state for `--remote`, `--local`, custom configurations,
@@ -217,10 +217,49 @@ implement that service or pretend the development fixtures exercise it.
 
 ## Dependency follow-up
 
-`npm audit --omit=dev` reports zero vulnerabilities. Full `npm audit` reports
-four moderate findings through Drizzle Kit's legacy `@esbuild-kit` / esbuild
+Before Better Auth was installed, `npm audit --omit=dev` reported zero
+vulnerabilities. Better Auth 1.6.26 declares Drizzle Kit as an optional peer, so
+npm 11 now classifies the existing development-only Drizzle installation as
+`devOptional`: `npm audit --omit=dev` reports the same four moderate findings,
+while `npm audit --omit=dev --omit=optional` reports zero. The findings remain
+in Drizzle Kit's legacy `@esbuild-kit` / esbuild
 chain ([advisory](https://github.com/advisories/GHSA-67mh-4wv8-2f99)). These are
 development dependencies, not Worker code. No esbuild serving or Drizzle Studio
 endpoint is started by this workflow. The suggested audit fix is a breaking
 Drizzle downgrade, so it was not applied. Reassess when a stable tooling release
 removes the chain; do not silently switch the project to an RC or downgrade.
+
+## Better Auth identity schema (PF-019)
+
+PF-019 pins Better Auth `1.6.26` and mounts its Web `Request` handler through
+Hono at `/api/auth/*`. The Worker uses Better Auth's Drizzle adapter with D1 and
+the generated SQLite schema in `worker/db/schema/auth.ts`. The schema was
+generated with `npx auth@1.6.26 generate`, reviewed, and committed through the
+new `0002_amusing_the_executioner.sql` migration. Applied PF-017 migrations
+`0000` and `0001` and their snapshots remain byte-identical; `db:check` now
+guards their SHA-256 values as well as full current migration drift.
+
+The generated core tables are `user`, `session`, `account`, and `verification`.
+Session tokens are opaque and persisted in D1; cookie caching and secondary
+storage are disabled. API responses recursively remove Better Auth session,
+account and provider token/password fields while retaining the HTTP-only
+same-origin cookie. Tests compare session responses with the raw token stored in
+D1 and cover both current-session and session-list responses. The auth schema
+does not add foreign keys to PedidoFlow memberships and creates no organization
+or membership during signup.
+
+`BETTER_AUTH_URL`, `BETTER_AUTH_TRUSTED_ORIGINS`, `BETTER_AUTH_SECRET`, and
+`PEDIDOFLOW_ENVIRONMENT` are validated server bindings. Trusted origins are an
+explicit comma-separated allowlist and are never derived from a request.
+Preview and production origins must use HTTPS. Email/password signup is enabled
+only when the environment is exactly `local` or `test`; preview and production
+fail closed. CSRF, Fetch Metadata, and redirect-origin checks remain enabled.
+
+Official references rechecked for the pinned implementation on 2026-09-15:
+
+- [Better Auth installation and schema generation](https://better-auth.com/docs/installation)
+- [Drizzle adapter](https://better-auth.com/docs/adapters/drizzle)
+- [Hono and Cloudflare Workers integration](https://better-auth.com/docs/integrations/hono)
+- [Database and schema validation](https://better-auth.com/docs/concepts/database)
+- [Configuration options and security checks](https://better-auth.com/docs/reference/options)
+- [Session management](https://better-auth.com/docs/concepts/session-management)
