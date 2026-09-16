@@ -55,9 +55,9 @@ describe('D1 local database foundation', () => {
 
   it('requires organization and actor context, scopes reads, updates and deletes', async () => {
     expect(() => catalogRepository(db, undefined!)).toThrow('context is required')
-    expect(() => catalogRepository(db, { organizationId: orgA, actorUserId: '' })).toThrow('context is required')
-    const a = catalogRepository(db, { organizationId: orgA, actorUserId: 'dev_user_valle' })
-    const b = catalogRepository(db, { organizationId: orgB, actorUserId: 'dev_user_abastos' })
+    expect(() => catalogRepository(db, { organizationId: orgA, actorUserId: '', role: 'operator' })).toThrow('context is required')
+    const a = catalogRepository(db, { organizationId: orgA, actorUserId: 'dev_user_valle', role: 'operator' })
+    const b = catalogRepository(db, { organizationId: orgB, actorUserId: 'dev_user_abastos', role: 'operator' })
     expect((await a.findProduct('prod_dev_valle'))?.organizationId).toBe(orgA)
     expect(await a.findProduct('prod_dev_abastos')).toBeUndefined()
     expect(await a.findProduct('missing')).toBeUndefined()
@@ -73,7 +73,7 @@ describe('D1 local database foundation', () => {
   })
 
   it('prevents mutations for suspended organizations while retaining scoped history reads', async () => {
-    const repository = catalogRepository(db, { organizationId: orgA, actorUserId: 'dev_user_valle' })
+    const repository = catalogRepository(db, { organizationId: orgA, actorUserId: 'dev_user_valle', role: 'operator' })
     await run(`UPDATE organizations SET status='suspended' WHERE id='${orgA}'`)
     expect(await repository.setProductActive('prod_dev_valle', false)).toBeUndefined()
     expect(await repository.removeAlias('alias_dev_valle')).toBeUndefined()

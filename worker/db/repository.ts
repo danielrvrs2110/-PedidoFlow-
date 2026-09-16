@@ -1,15 +1,7 @@
 import { and, eq, exists } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/d1'
+import type { OrganizationContext } from '../authorization.js'
 import { organizations, productAliases, products } from './schema/index.js'
-
-/** Internal server context, supplied only after session/membership verification.
- * This type is NOT proof of authorization. PF-017 exposes no HTTP entry point;
- * the future auth boundary must build this from verified membership, never a body/header.
- */
-export interface OrganizationContext {
-  readonly organizationId: string
-  readonly actorUserId: string
-}
 
 export function catalogRepository(binding: D1Database, context: OrganizationContext) {
   if (!context?.organizationId?.trim() || !context?.actorUserId?.trim()) {
