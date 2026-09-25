@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { Badge } from '../components/ui'
+import { NavLink, Outlet, useLocation, useNavigate, useOutletContext } from 'react-router-dom'
+import { Alert, Badge, Button } from '../components/ui'
 import { cn } from '../lib/cn'
+import { AuthServiceError, signOut } from '../lib/auth'
+import type { ProtectedOutletContext } from './ProtectedRoute'
 
 interface NavigationItem {
   label: string
@@ -197,7 +199,12 @@ function MobileNavigation() {
 
 export function AppShell() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { organization } = useOutletContext<ProtectedOutletContext>()
   const initialRender = useRef(true)
+  const logoutControllerRef = useRef<AbortController | null>(null)
+  const [signingOut, setSigningOut] = useState(false)
+  const [logoutError, setLogoutError] = useState(false)
 
   useEffect(() => {
     const heading = document.querySelector<HTMLElement>('#main-content h1')
@@ -209,6 +216,24 @@ export function AppShell() {
     heading?.focus()
   }, [location.pathname])
 
+  useEffect(() => () => logoutControllerRef.current?.abort(), [])
+
+  async function handleLogout() {
+    setSigningOut(true)
+    setLogoutError(false)
+    const controller = new AbortController()
+    logoutControllerRef.current = controller
+    try {
+      await signOut(controller.signal)
+      navigate('/login', { replace: true })
+    } catch (error) {
+      if (error instanceof AuthServiceError) setLogoutError(true)
+    } finally {
+      if (logoutControllerRef.current === controller) logoutControllerRef.current = null
+      setSigningOut(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900 md:grid md:grid-cols-[13rem_minmax(0,1fr)] lg:grid-cols-[15rem_minmax(0,1fr)]">
       <a href="#main-content" className="fixed top-3 left-3 z-50 -translate-y-20 rounded-control bg-brand-700 px-4 py-2 text-sm font-medium text-white focus:translate-y-0">
@@ -219,6 +244,10 @@ export function AppShell() {
         <div className="flex h-16 items-center gap-3 border-b border-neutral-200 px-4 lg:px-5">
           <div className="grid size-8 shrink-0 place-items-center rounded-control bg-brand-700 text-xs font-bold text-white" aria-hidden="true">PF</div>
           <span className="min-w-0 truncate text-base font-semibold tracking-[-0.02em]">PedidoFlow</span>
+        </div>
+        <div className="border-b border-neutral-200 px-4 py-3 lg:px-5">
+          <p className="truncate text-xs font-medium text-neutral-900" title={organization.organizationId}>{organization.organizationId}</p>
+          <p className="mt-0.5 text-xs text-neutral-500">Rol: {organization.role}</p>
         </div>
         <nav aria-label="Navegación principal" className="flex-1 overflow-y-auto px-3 py-5">
           <DesktopNavigationGroup label="Operación" items={primaryNavigation} />
@@ -233,9 +262,18 @@ export function AppShell() {
             <div className="grid size-8 place-items-center rounded-control bg-brand-700 text-xs font-bold text-white" aria-hidden="true">PF</div>
             <span className="font-semibold tracking-[-0.02em]">PedidoFlow</span>
           </div>
-          <p className="hidden text-sm text-neutral-500 md:block">Espacio operativo</p>
-          <Badge tone="neutral">Estructura inicial</Badge>
+          <p className="hidden truncate text-sm text-neutral-500 md:block" title={organization.organizationId}>{organization.organizationId}</p>
+          <div className="flex items-center gap-2">
+            <Badge tone="neutral">{organization.role}</Badge>
+            <Button size="sm" variant="ghost" loading={signingOut} onClick={handleLogout}>Cerrar sesión</Button>
+          </div>
         </header>
+
+        {logoutError ? (
+          <div className="px-4 pt-4 sm:px-5 md:px-6 lg:px-8">
+            <Alert tone="danger" title="No pudimos cerrar tu sesión">Tu sesión sigue activa. Inténtalo de nuevo.</Alert>
+          </div>
+        ) : null}
 
         <main id="main-content" tabIndex={-1} className="px-4 pt-6 pb-24 outline-none sm:px-5 md:px-6 md:py-8 lg:px-8">
           <Outlet />
