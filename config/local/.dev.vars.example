@@ -1,0 +1,4 @@
+# Copying this file verbatim must not produce a working authentication setup.
+# Run `npm run dev:prepare` to create an ignored `.dev.vars` with a random
+# local-only secret, or replace this marker with at least 32 random characters.
+BETTER_AUTH_SECRET="CHANGEME"

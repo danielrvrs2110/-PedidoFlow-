@@ -55,6 +55,29 @@ and compatibility review.
 Session secrets are server-only environment values. `.env.example` may name
 required variables but must never contain a usable secret.
 
+### Local runtime
+
+PF-021 wires `npm run dev` to `config/local/wrangler.jsonc`, which contains only a
+synthetic D1 ID with `remote: false`, the local environment marker and explicit
+localhost origins. The auth secret stays in ignored
+`config/local/.dev.vars`; the committed adjacent `.dev.vars.example` marker is
+deliberately too short to pass binding validation. Keeping the local secret next
+to the local config also prevents production builds from copying it into their
+preview-only output. Vite preview and production builds explicitly use the
+principal `wrangler.jsonc`; only the non-preview development server can select
+the local configuration.
+`npm run dev:prepare` creates a random local-only secret if the file is absent
+and applies pending migrations to the shared local persistence. It never resets
+or seeds data. `npm run dev` requires that explicit preparation and performs no
+implicit database mutation.
+
+The local Worker and database commands are serialized by the same project lock.
+Stop the development server before running migration, seed, inspect or reset
+commands. Signup remains enabled only because the bound environment is exactly
+`local`; none of this configuration provisions a preview or production account.
+The HTTP smoke uses its own temporary config, secret, port and D1 persistence;
+it never creates, reads or removes the developer's `config/local/.dev.vars`.
+
 ## Organization Context
 
 Every protected business request derives its context server-side:

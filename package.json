@@ -8,7 +8,8 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev/local.mjs serve",
+    "dev:prepare": "node scripts/dev/local.mjs prepare",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "test": "vitest run",
@@ -24,7 +25,8 @@
     "db:inspect:local": "node scripts/db/local.mjs inspect",
     "test:db": "vitest run worker/db/database.test.ts",
     "test:auth": "vitest run worker/auth.test.ts",
-    "test:authz": "vitest run worker/authorization.test.ts"
+    "test:authz": "vitest run worker/authorization.test.ts",
+    "test:local-runtime": "node scripts/dev/smoke.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

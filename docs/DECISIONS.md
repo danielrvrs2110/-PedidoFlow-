@@ -103,3 +103,25 @@
 - Alternatives: The organization plugin would duplicate the current membership
   model. Stateless JWTs or a secondary store would add revocation complexity or
   infrastructure without an MVP requirement.
+
+## DEC-009 — Local Auth Runtime Configuration Boundary
+
+- Date: 2026-09-16
+- Status: Accepted by PF-021 review.
+- Decision: Use a separate, local-only Wrangler configuration for `vite serve`,
+  with a synthetic `remote: false` D1 binding and the same managed persistence
+  as local database tooling. Keep build/deploy input on `wrangler.jsonc`, which
+  has no invented remote binding. Generate the ignored local auth secret and
+  apply migrations only through an explicit preparation command.
+- Reason: The real Worker auth routes need D1 and server bindings during local
+  development, while a fake deployable database ID or committed secret would
+  make the environment boundary unsafe. Shared state also makes CLI migrations
+  visible to Vite without a second database copy.
+- Consequence: Local database tools and Vite are serialized and cannot run over
+  the managed persistence simultaneously. Starting development never resets,
+  migrates or seeds data. Preview/production remain deliberately unwired until
+  remote infrastructure is explicitly authorized. Vite preview follows the
+  principal configuration and cannot inherit the local signup environment.
+- Alternatives: Programmatic bindings would not serve Wrangler D1 commands;
+  committed secrets are unsafe; separate CLI and Vite state would make local
+  setup non-reproducible.
