@@ -44,8 +44,8 @@ Last updated: 2026-09-24
 
 - [ ] PF-021 Wire the Vite Worker to a strictly local D1 binding and safe local
   auth variables, with explicit preparation and an isolated end-to-end HTTP
-  smoke. Status: implementation complete; pending orchestrator review and
-  integration. Evidence: `docs/PF-021_REVIEW.md`.
+  smoke. Status: PASS; pending GitHub integration. Evidence:
+  `docs/PF-021_REVIEW.md`.
 
 ## Next
 

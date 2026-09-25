@@ -107,7 +107,7 @@
 ## DEC-009 — Local Auth Runtime Configuration Boundary
 
 - Date: 2026-09-16
-- Status: Proposed by PF-021; pending final Orchestrator review.
+- Status: Accepted by PF-021 review.
 - Decision: Use a separate, local-only Wrangler configuration for `vite serve`,
   with a synthetic `remote: false` D1 binding and the same managed persistence
   as local database tooling. Keep build/deploy input on `wrangler.jsonc`, which
