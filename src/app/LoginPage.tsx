@@ -22,6 +22,7 @@ export function LoginPage() {
   const passwordRef = useRef<HTMLInputElement>(null)
   const errorRef = useRef<HTMLDivElement>(null)
   const submitControllerRef = useRef<AbortController | null>(null)
+  const submitGenerationRef = useRef(0)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -33,19 +34,24 @@ export function LoginPage() {
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === 'AbortError') return
-        if (error instanceof AuthServiceError) setCheckWarning(true)
+        setCheckWarning(true)
       })
       .finally(() => {
         if (!controller.signal.aborted) setChecking(false)
       })
     return () => {
       controller.abort()
+      submitGenerationRef.current += 1
       submitControllerRef.current?.abort()
     }
   }, [])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    submitControllerRef.current?.abort()
+    submitControllerRef.current = null
+    const generation = submitGenerationRef.current + 1
+    submitGenerationRef.current = generation
     const data = new FormData(event.currentTarget)
     const email = String(data.get('email') ?? '').trim()
     const password = String(data.get('password') ?? '')
@@ -54,6 +60,7 @@ export function LoginPage() {
     if (!password) nextErrors.password = 'Escribe tu contraseña.'
     setErrors(nextErrors)
     setFormError(null)
+    if (Object.keys(nextErrors).length > 0) setSubmitting(false)
     if (nextErrors.email) return emailRef.current?.focus()
     if (nextErrors.password) return passwordRef.current?.focus()
 
@@ -62,6 +69,7 @@ export function LoginPage() {
     submitControllerRef.current = controller
     try {
       const result = await signIn(email, password, controller.signal)
+      if (controller.signal.aborted || submitGenerationRef.current !== generation) return
       if (result === 'success') {
         navigate(returnTo, { replace: true })
         return
@@ -69,13 +77,16 @@ export function LoginPage() {
       setFormError(result === 'invalid_credentials' ? 'credentials' : 'service')
       window.requestAnimationFrame(() => errorRef.current?.focus())
     } catch (error) {
+      if (controller.signal.aborted || submitGenerationRef.current !== generation) return
       if (error instanceof AuthServiceError) {
         setFormError('service')
         window.requestAnimationFrame(() => errorRef.current?.focus())
       }
     } finally {
-      if (submitControllerRef.current === controller) submitControllerRef.current = null
-      setSubmitting(false)
+      if (submitControllerRef.current === controller && submitGenerationRef.current === generation) {
+        submitControllerRef.current = null
+        setSubmitting(false)
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Alert, Button } from '../components/ui'
-import { AuthServiceError, loadAuthState, type AuthState, type OrganizationContext } from '../lib/auth'
+import { loadAuthState, type AuthState, type OrganizationContext } from '../lib/auth'
 
 export interface ProtectedOutletContext {
   organization: OrganizationContext
@@ -43,7 +43,7 @@ export function ProtectedRoute() {
       .then(setState)
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === 'AbortError') return
-        if (error instanceof AuthServiceError) setState({ status: 'network_error' })
+        setState({ status: 'network_error' })
       })
     return () => controller.abort()
   }, [retry])

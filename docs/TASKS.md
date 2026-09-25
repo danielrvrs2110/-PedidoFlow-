@@ -145,7 +145,7 @@ Last updated: 2026-09-24
   `ad767f75321c901357c72de5285f4e42782f61ed`.
 - PF-022: the accessible login form, safe local `returnTo`, session/context
   guard, explicit organization-access states, verified shell identity and real
-  logout behavior pass 129 total tests. Protected content remains hidden until
+  logout behavior pass 140 total tests. Protected content remains hidden until
   both session and organization context validate. Review:
   `docs/PF-022_REVIEW.md`.
 

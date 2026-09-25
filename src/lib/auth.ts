@@ -37,25 +37,38 @@ function isOrganizationContext(value: unknown): value is OrganizationContext {
     && typeof context.role === 'string' && roles.has(context.role as OrganizationRole)
 }
 
-export async function loadAuthState(signal?: AbortSignal): Promise<AuthState> {
-  const sessionResponse = await authFetch('/api/auth/get-session', { signal })
-  if (!sessionResponse.ok) throw new AuthServiceError()
-  const session = await sessionResponse.json()
-  if (!session) return { status: 'unauthenticated' }
+function isSession(value: unknown) {
+  if (!value || typeof value !== 'object') return false
+  const candidate = value as { user?: { id?: unknown } }
+  return typeof candidate.user?.id === 'string' && candidate.user.id.length > 0
+}
 
-  const contextResponse = await authFetch('/api/context', { signal })
-  if (contextResponse.status === 401) return { status: 'unauthenticated' }
-  if (contextResponse.status === 403) {
-    const body = await contextResponse.json().catch(() => null) as { error?: unknown } | null
-    if (body?.error === 'no_access' || body?.error === 'selection_required') {
-      return { status: body.error }
+export async function loadAuthState(signal?: AbortSignal): Promise<AuthState> {
+  try {
+    const sessionResponse = await authFetch('/api/auth/get-session', { signal })
+    if (!sessionResponse.ok) throw new AuthServiceError()
+    const session: unknown = await sessionResponse.json()
+    if (!session) return { status: 'unauthenticated' }
+    if (!isSession(session)) throw new AuthServiceError()
+
+    const contextResponse = await authFetch('/api/context', { signal })
+    if (contextResponse.status === 401) return { status: 'unauthenticated' }
+    if (contextResponse.status === 403) {
+      const body = await contextResponse.json().catch(() => null) as { error?: unknown } | null
+      if (body?.error === 'no_access' || body?.error === 'selection_required') {
+        return { status: body.error }
+      }
+      throw new AuthServiceError()
     }
+    if (!contextResponse.ok) throw new AuthServiceError()
+    const context: unknown = await contextResponse.json()
+    if (!isOrganizationContext(context)) throw new AuthServiceError()
+    return { status: 'authenticated', context }
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') throw error
+    if (error instanceof AuthServiceError) throw error
     throw new AuthServiceError()
   }
-  if (!contextResponse.ok) throw new AuthServiceError()
-  const context = await contextResponse.json()
-  if (!isOrganizationContext(context)) throw new AuthServiceError()
-  return { status: 'authenticated', context }
 }
 
 export type SignInResult = 'success' | 'invalid_credentials' | 'service_error'
@@ -83,20 +96,29 @@ export async function signOut(signal?: AbortSignal) {
 }
 
 export function safeAppReturnTo(value: string | null | undefined) {
-  if (!value || [...value].some((character) => character === '\\' || character.charCodeAt(0) < 32)) return '/app'
+  const unsafe = (candidate: string) => [...candidate]
+    .some((character) => character === '\\' || character.charCodeAt(0) < 32)
+  if (!value || unsafe(value)) return '/app'
   let decoded = value
   try {
     for (let index = 0; index < 3; index += 1) {
       const next = decodeURIComponent(decoded)
       if (next === decoded) break
+      if (unsafe(next)) return '/app'
       decoded = next
     }
+    if (decodeURIComponent(decoded) !== decoded) return '/app'
   } catch {
     return '/app'
   }
-  if (decoded !== '/app' && !decoded.startsWith('/app/')) return '/app'
-  if (decoded.startsWith('//')) return '/app'
-  const url = new URL(decoded, window.location.origin)
+  let url: URL
+  try {
+    url = new URL(decoded, window.location.origin)
+  } catch {
+    return '/app'
+  }
   if (url.origin !== window.location.origin) return '/app'
-  return `${url.pathname}${url.search}${url.hash}`
+  if (url.pathname !== '/app' && !url.pathname.startsWith('/app/')) return '/app'
+  const result = `${url.pathname}${url.search}${url.hash}`
+  return result.startsWith('//') ? '/app' : result
 }
