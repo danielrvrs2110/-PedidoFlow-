@@ -67,8 +67,10 @@ that ignored file is absent, then applies pending migrations to
 same persistence without applying migrations or fixtures. Because both flows
 use `.wrangler/pf017-local.lock`, database commands must run only after the Vite
 server stops. Use `npm run test:local-runtime` for an isolated HTTP lifecycle;
-it creates and removes a separate `.wrangler/pf021-smoke-*` persistence and does
-not open the development database.
+it creates a temporary config, secret, free port and
+`.wrangler/pf021-smoke-*` persistence, confirms its owned Vite process has
+stopped, then removes that state. It neither opens the development database nor
+touches the developer's local auth secret.
 
 `npm run test:db` runs the database suite alone. It starts one ephemeral D1
 instance, applies all committed migrations, seeds two organizations, and disposes the
@@ -89,8 +91,9 @@ Expected FK outputs are `foreign_keys: 1` and an empty `foreign_key_check` resul
 The dedicated `wrangler.database.json` and `config/local/wrangler.jsonc` have
 unmistakable development names,
 a fixed synthetic database ID and `remote: false`. It is not a deployable
-production binding. Vite selects the local configuration only for `serve`;
-build and deploy input remains `wrangler.jsonc`, which deliberately has no D1
+production binding. Vite selects the local configuration only for the
+non-preview development server; preview, build and deploy input remains
+`wrangler.jsonc`, which deliberately has no D1
 binding. The application Worker adds only Better Auth's required `nodejs_compat`
 flag; it does not invent a deployable D1 database ID. A future
 infrastructure task must provision and deliberately wire the real application
@@ -101,6 +104,10 @@ make the configuration and persistence selection explicit. Local D1 bindings
 are simulated by default, and Wrangler CLI plus Vite can share state when they
 use the same path. Secrets belong in the ignored `.dev.vars` beside the local
 configuration, not `vars` or Git:
+
+An automated selection test verifies that normal development uses the local
+config while Vite preview and build use only `wrangler.jsonc`, so the local
+environment marker cannot enable signup in preview.
 
 - [Cloudflare Vite plugin API](https://developers.cloudflare.com/workers/vite-plugin/reference/api/)
 - [Local resource data and shared persistence](https://developers.cloudflare.com/workers/local-development/local-data/)

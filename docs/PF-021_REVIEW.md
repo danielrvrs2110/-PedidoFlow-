@@ -12,8 +12,9 @@ usable committed secret.
 
 ## Implementation evidence
 
-- `vite serve` selects `config/local/wrangler.jsonc`; builds continue to select the
-  deliberately unwired `wrangler.jsonc`.
+- The non-preview development server selects `config/local/wrangler.jsonc`;
+  Vite preview and builds select the deliberately unwired `wrangler.jsonc`.
+  A focused configuration test enforces this boundary.
 - The local binding has `remote: false`, a synthetic database ID and the same
   migrations as PF-017/PF-019. Remote bindings are disabled in the Vite plugin.
 - `config/local/.dev.vars` remains ignored and outside the production config
@@ -24,20 +25,23 @@ usable committed secret.
   `.wrangler/pf017-local.lock`. The lock records its owner and recovers only a
   verified dead-owner lock after forced termination. Startup does not migrate,
   seed or reset.
-- The smoke uses a unique `.wrangler/pf021-smoke-*` state, applies migrations,
+- The smoke uses a unique config, secret, free port and
+  `.wrangler/pf021-smoke-*` state, applies migrations,
   starts the real Vite Worker, signs up a unique local user, stops Vite before
   adding an isolated organization membership through Wrangler, restarts Vite,
   and verifies login, response redaction, `/api/context`, logout and revocation.
-  Its state and temporary secret (only when created by the smoke) are removed.
+  It waits for its owned process to exit before removing state. It never reads,
+  creates or deletes the shared development secret.
 
-## Validation evidence (2026-09-16)
+## Validation evidence (2026-09-24)
 
 Run sequentially from the PF-021 worktree:
 
 - `git diff --check`: pass.
 - `npm run lint`: pass.
 - `npm run typecheck`: pass.
-- `npm run test`: 6 files and 115 tests pass.
+- `npm run test`: 7 files and 119 tests pass, including the runtime-selection
+  tests that distinguish development from preview/build.
 - `npm run build`: production Worker and client builds pass; the build still
   uses `wrangler.jsonc`, not the local D1 configuration, and contains no copied
   `.dev.vars` file.

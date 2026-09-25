@@ -107,7 +107,7 @@
 ## DEC-009 — Local Auth Runtime Configuration Boundary
 
 - Date: 2026-09-16
-- Status: Proposed by PF-021; pending Orchestrator review.
+- Status: Proposed by PF-021; pending final Orchestrator review.
 - Decision: Use a separate, local-only Wrangler configuration for `vite serve`,
   with a synthetic `remote: false` D1 binding and the same managed persistence
   as local database tooling. Keep build/deploy input on `wrangler.jsonc`, which
@@ -120,7 +120,8 @@
 - Consequence: Local database tools and Vite are serialized and cannot run over
   the managed persistence simultaneously. Starting development never resets,
   migrates or seeds data. Preview/production remain deliberately unwired until
-  remote infrastructure is explicitly authorized.
+  remote infrastructure is explicitly authorized. Vite preview follows the
+  principal configuration and cannot inherit the local signup environment.
 - Alternatives: Programmatic bindings would not serve Wrangler D1 commands;
   committed secrets are unsafe; separate CLI and Vite state would make local
   setup non-reproducible.
