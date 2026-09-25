@@ -44,18 +44,19 @@ Last updated: 2026-09-24
   auth variables, with explicit preparation and an isolated end-to-end HTTP
   smoke. Integrated through PR #12 at `ad767f7`; review:
   `docs/PF-021_REVIEW.md`.
+- [x] PF-022 Implement login/logout UI and protected `/app/*` client routing
+  against the existing session and organization-context APIs, without signup
+  or organization provisioning. Integrated through PR #13 at `f82386a`;
+  review: `docs/PF-022_REVIEW.md`.
 ## Current
 
-- [ ] PF-022 Implement login/logout UI and protected `/app/*` client routing
-  against the existing session and organization-context APIs. Keep signup and
-  organization provisioning outside the UI scope. Status: PASS after
-  independent review; pending GitHub integration. Evidence:
-  `docs/PF-022_REVIEW.md`.
+- [ ] PF-023 Define a safe local-only first-owner bootstrap contract and
+  implementation boundary. It must not choose or enable production signup,
+  invitations, billing, or remote infrastructure.
 
 ## Next
 
-- Integrate PF-022, then define explicit local organization
-  provisioning/onboarding without inventing production signup.
+- Define and review PF-023 before implementing any first-organization mutation.
 
 ## Blocked
 
@@ -149,6 +150,8 @@ Last updated: 2026-09-24
   logout behavior pass 140 total tests. Protected content remains hidden until
   both session and organization context validate. Review:
   `docs/PF-022_REVIEW.md`.
+- PF-022 integration: PR #13 merged into `main` at
+  `f82386abcd66589a5af47aa55123b1adfaa1cb6e`.
 
 ## GitHub Status
 
@@ -165,6 +168,8 @@ Last updated: 2026-09-24
   `793371e6542d7697efe8ade978394c69be10deba`.
 - PR #12 merged PF-021 into `main` at
   `ad767f75321c901357c72de5285f4e42782f61ed`.
+- PR #13 merged PF-022 into `main` at
+  `f82386abcd66589a5af47aa55123b1adfaa1cb6e`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 
