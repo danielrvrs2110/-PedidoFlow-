@@ -3,8 +3,10 @@ import { Route, Routes } from 'react-router-dom'
 import { Badge } from '../components/ui'
 import { getHealth, type HealthState } from '../lib/health'
 import { AppShell } from './AppShell'
+import { LoginPage } from './LoginPage'
 import { ApplicationNotFound, ModulePage } from './ModulePage'
 import { modulePages } from './modulePages'
+import { ProtectedRoute } from './ProtectedRoute'
 
 const initialHealth: HealthState = {
   state: 'loading',
@@ -75,18 +77,21 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<FoundationPage />} />
-      <Route path="/app" element={<AppShell />}>
-        <Route index element={<ModulePage page={modulePages.home} />} />
-        <Route path="inbox" element={<ModulePage page={modulePages.inbox} />} />
-        <Route path="orders" element={<ModulePage page={modulePages.orders} />} />
-        <Route path="picking" element={<ModulePage page={modulePages.picking} />} />
-        <Route path="customers" element={<ModulePage page={modulePages.customers} />} />
-        <Route path="products" element={<ModulePage page={modulePages.products} />} />
-        <Route path="inventory" element={<ModulePage page={modulePages.inventory} />} />
-        <Route path="pricing" element={<ModulePage page={modulePages.pricing} />} />
-        <Route path="import" element={<ModulePage page={modulePages.import} />} />
-        <Route path="settings" element={<ModulePage page={modulePages.settings} />} />
-        <Route path="*" element={<ApplicationNotFound />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/app" element={<AppShell />}>
+          <Route index element={<ModulePage page={modulePages.home} />} />
+          <Route path="inbox" element={<ModulePage page={modulePages.inbox} />} />
+          <Route path="orders" element={<ModulePage page={modulePages.orders} />} />
+          <Route path="picking" element={<ModulePage page={modulePages.picking} />} />
+          <Route path="customers" element={<ModulePage page={modulePages.customers} />} />
+          <Route path="products" element={<ModulePage page={modulePages.products} />} />
+          <Route path="inventory" element={<ModulePage page={modulePages.inventory} />} />
+          <Route path="pricing" element={<ModulePage page={modulePages.pricing} />} />
+          <Route path="import" element={<ModulePage page={modulePages.import} />} />
+          <Route path="settings" element={<ModulePage page={modulePages.settings} />} />
+          <Route path="*" element={<ApplicationNotFound />} />
+        </Route>
       </Route>
       <Route path="*" element={<ApplicationNotFound publicRoute />} />
     </Routes>

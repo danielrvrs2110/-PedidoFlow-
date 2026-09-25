@@ -48,12 +48,14 @@ Last updated: 2026-09-24
 
 - [ ] PF-022 Implement login/logout UI and protected `/app/*` client routing
   against the existing session and organization-context APIs. Keep signup and
-  organization provisioning outside the UI scope.
+  organization provisioning outside the UI scope. Status: PASS after
+  independent review; pending GitHub integration. Evidence:
+  `docs/PF-022_REVIEW.md`.
 
 ## Next
 
-- Implement and independently review PF-022, then define explicit local
-  organization provisioning/onboarding without inventing production signup.
+- Integrate PF-022, then define explicit local organization
+  provisioning/onboarding without inventing production signup.
 
 ## Blocked
 
@@ -142,6 +144,11 @@ Last updated: 2026-09-24
   `docs/PF-021_REVIEW.md`.
 - PF-021 integration: PR #12 merged into `main` at
   `ad767f75321c901357c72de5285f4e42782f61ed`.
+- PF-022: the accessible login form, safe local `returnTo`, session/context
+  guard, explicit organization-access states, verified shell identity and real
+  logout behavior pass 140 total tests. Protected content remains hidden until
+  both session and organization context validate. Review:
+  `docs/PF-022_REVIEW.md`.
 
 ## GitHub Status
 
