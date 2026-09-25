@@ -40,17 +40,20 @@ Last updated: 2026-09-24
 - [x] PF-020 Implement server-derived organization context and centralized
   role/capability authorization. Integrated through PR #11 at `793371e`;
   review: `docs/PF-020_REVIEW.md`.
+- [x] PF-021 Wire the Vite Worker to a strictly local D1 binding and safe local
+  auth variables, with explicit preparation and an isolated end-to-end HTTP
+  smoke. Integrated through PR #12 at `ad767f7`; review:
+  `docs/PF-021_REVIEW.md`.
 ## Current
 
-- [ ] PF-021 Wire the Vite Worker to a strictly local D1 binding and safe local
-  auth variables, with explicit preparation and an isolated end-to-end HTTP
-  smoke. Status: PASS; pending GitHub integration. Evidence:
-  `docs/PF-021_REVIEW.md`.
+- [ ] PF-022 Implement login/logout UI and protected `/app/*` client routing
+  against the existing session and organization-context APIs. Keep signup and
+  organization provisioning outside the UI scope.
 
 ## Next
 
-- Review and integrate PF-021, then define the smallest protected-route/login
-  UI task without adding organization provisioning.
+- Implement and independently review PF-022, then define explicit local
+  organization provisioning/onboarding without inventing production signup.
 
 ## Blocked
 
@@ -137,6 +140,8 @@ Last updated: 2026-09-24
   HTTP smoke exercises signup, login, redacted session lookup, organization
   context, logout and revocation through the real Vite Worker runtime. Review:
   `docs/PF-021_REVIEW.md`.
+- PF-021 integration: PR #12 merged into `main` at
+  `ad767f75321c901357c72de5285f4e42782f61ed`.
 
 ## GitHub Status
 
@@ -151,6 +156,8 @@ Last updated: 2026-09-24
   `018a683a51b8928e13bd54091e0fae1ac9cfb938`.
 - PR #11 merged PF-020 into `main` at
   `793371e6542d7697efe8ade978394c69be10deba`.
+- PR #12 merged PF-021 into `main` at
+  `ad767f75321c901357c72de5285f4e42782f61ed`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 
