@@ -48,13 +48,14 @@ Last updated: 2026-09-24
 
 - [ ] PF-022 Implement login/logout UI and protected `/app/*` client routing
   against the existing session and organization-context APIs. Keep signup and
-  organization provisioning outside the UI scope. Status: PASS; pending
-  independent review and GitHub integration. Evidence: `docs/PF-022_REVIEW.md`.
+  organization provisioning outside the UI scope. Status: PASS after
+  independent review; pending GitHub integration. Evidence:
+  `docs/PF-022_REVIEW.md`.
 
 ## Next
 
-- Implement and independently review PF-022, then define explicit local
-  organization provisioning/onboarding without inventing production signup.
+- Integrate PF-022, then define explicit local organization
+  provisioning/onboarding without inventing production signup.
 
 ## Blocked
 

@@ -1,6 +1,6 @@
 # PF-022 — Login, logout and protected route handoff
 
-Status: **PASS; pending independent review and GitHub integration**.
+Status: **PASS after independent review; pending GitHub integration**.
 
 ## Scope implemented
 
@@ -70,6 +70,10 @@ The Orchestrator's visual QA confirmed that `/login` rendered without a visible
 error overlay, `/app/orders` redirected to login with a local `returnTo`, and an
 empty submit displayed both field errors while moving focus to email. No browser
 console result is claimed.
+
+Independent rereview at `e956057` confirmed the canonical return boundary,
+recoverable malformed-response handling, strict request mocks without hanging
+handles, and stale-submit cancellation. No blocking findings remain.
 
 ## Follow-up boundary
 
