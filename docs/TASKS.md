@@ -48,18 +48,18 @@ Last updated: 2026-09-24
   against the existing session and organization-context APIs, without signup
   or organization provisioning. Integrated through PR #13 at `f82386a`;
   review: `docs/PF-022_REVIEW.md`.
+- [x] PF-023 Define the local-only first-owner bootstrap contract and
+  implementation boundary. Integrated through PR #14 at `3d40758`; contract:
+  `docs/LOCAL_BOOTSTRAP.md`; review: `docs/PF-023_REVIEW.md`.
 ## Current
 
-- [ ] PF-023 Define a safe local-only first-owner bootstrap contract and
-  implementation boundary. It must not choose or enable production signup,
-  invitations, billing, or remote infrastructure. Status: PASS; pending GitHub
-  integration. Contract: `docs/LOCAL_BOOTSTRAP.md`; review:
-  `docs/PF-023_REVIEW.md`; decision: DEC-010.
+- [ ] PF-024 Implement the accepted local-only first-owner bootstrap command
+  with isolated D1/HTTP lifecycle tests and secret-leak assertions.
 
 ## Next
 
-- Integrate PF-023, then implement the accepted local bootstrap as a separate
-  focused task before any production onboarding decision.
+- Implement and independently review PF-024 before any production onboarding
+  decision.
 
 ## Blocked
 
@@ -155,6 +155,9 @@ Last updated: 2026-09-24
   `docs/PF-022_REVIEW.md`.
 - PF-022 integration: PR #13 merged into `main` at
   `f82386abcd66589a5af47aa55123b1adfaa1cb6e`.
+- PF-023: accepted local-only bootstrap boundary, secret handling, exact retry
+  semantics and atomic organization-plus-owner contract. PR #14 merged into
+  `main` at `3d40758584e986acc9042ec3f3681e55d3a9c512`.
 
 ## GitHub Status
 
@@ -173,6 +176,8 @@ Last updated: 2026-09-24
   `ad767f75321c901357c72de5285f4e42782f61ed`.
 - PR #13 merged PF-022 into `main` at
   `f82386abcd66589a5af47aa55123b1adfaa1cb6e`.
+- PR #14 merged PF-023 into `main` at
+  `3d40758584e986acc9042ec3f3681e55d3a9c512`.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 
