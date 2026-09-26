@@ -52,11 +52,14 @@ Last updated: 2026-09-24
 
 - [ ] PF-023 Define a safe local-only first-owner bootstrap contract and
   implementation boundary. It must not choose or enable production signup,
-  invitations, billing, or remote infrastructure.
+  invitations, billing, or remote infrastructure. Status: PASS; pending GitHub
+  integration. Contract: `docs/LOCAL_BOOTSTRAP.md`; review:
+  `docs/PF-023_REVIEW.md`; decision: DEC-010.
 
 ## Next
 
-- Define and review PF-023 before implementing any first-organization mutation.
+- Integrate PF-023, then implement the accepted local bootstrap as a separate
+  focused task before any production onboarding decision.
 
 ## Blocked
 

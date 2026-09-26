@@ -180,6 +180,11 @@ adds the verified organization context and centralized role/capability floor.
 Subsequent small tasks may add login/logout UI and protected-route behavior,
 then provisioning and validated organization switching under explicit scopes.
 
+PF-022 implements login/logout and protected routing. PF-023 defines only the
+local first-owner bootstrap contract in `docs/LOCAL_BOOTSTRAP.md`. It does not
+authorize a production signup/onboarding surface; preview and production signup
+remain fail closed.
+
 ## Acceptance Criteria for PF-019
 
 1. The installed Better Auth version and official D1/Drizzle integration are

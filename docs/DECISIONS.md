@@ -125,3 +125,23 @@
 - Alternatives: Programmatic bindings would not serve Wrangler D1 commands;
   committed secrets are unsafe; separate CLI and Vite state would make local
   setup non-reproducible.
+
+## DEC-010 — First-owner bootstrap remains local tooling
+
+- Date: 2026-09-24
+- Status: Accepted by PF-023 Orchestrator review.
+- Decision: Define first-owner bootstrap as an explicit local-only command that
+  creates/authenticates identity through Better Auth and then atomically creates
+  one PedidoFlow organization plus owner membership. It is not a signup or
+  onboarding surface for preview or production.
+- Reason: The authenticated UI now works, but a fresh local database has no
+  usable organization membership. Development needs a truthful path without
+  prematurely choosing the production acquisition, invitation or verification
+  policy.
+- Consequence: Local developers can later bootstrap a usable owner under strict
+  gates. Production signup remains fail closed and requires a separate approved
+  decision. Identity creation and the organization batch have an explicit retry
+  boundary rather than pretending to be one transaction.
+- Alternatives: A committed demo password is unsafe; direct auth-table inserts
+  bypass Better Auth; a public signup/onboarding UI would decide production
+  policy and expand scope prematurely.
