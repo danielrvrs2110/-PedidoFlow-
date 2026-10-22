@@ -55,11 +55,13 @@ Last updated: 2026-09-24
 
 - [ ] PF-024 Implement the accepted local-only first-owner bootstrap command
   with isolated D1/HTTP lifecycle tests and secret-leak assertions.
+  Implementation and corrective independent review complete on
+  `codex/feature/pf-024-local-owner-bootstrap`; pending integration. Review:
+  `docs/PF-024_REVIEW.md`.
 
 ## Next
 
-- Implement and independently review PF-024 before any production onboarding
-  decision.
+- Integrate reviewed PF-024 before any production onboarding decision.
 
 ## Blocked
 
@@ -67,8 +69,9 @@ Last updated: 2026-09-24
 
 ## Technical Debt
 
-- Four moderate findings in Drizzle Kit development dependencies remain;
-  `npm audit --omit=dev` reports zero. See `docs/DATABASE.md`.
+- Nine current full-audit findings remain in development/optional Drizzle and
+  Cloudflare tooling paths; `npm audit --omit=dev --omit=optional` reports zero.
+  See `docs/DATABASE.md`.
 - The local directory is named `Solervia`; the Git repository is being treated as the independent PedidoFlow product repository.
 
 ## Important Decisions

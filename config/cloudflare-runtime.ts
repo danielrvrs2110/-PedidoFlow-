@@ -33,7 +33,6 @@ export function selectCloudflareRuntime({
   if (isSmokeConfig && path.dirname(path.dirname(configPath)) !== path.dirname(persistPath)) {
     throw new Error('Smoke config and persistence must share one isolated runtime root')
   }
-
   return {
     configPath,
     persistState: { path: persistPath },

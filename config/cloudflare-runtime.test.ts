@@ -41,4 +41,5 @@ describe('Cloudflare Vite runtime selection', () => {
       environment: { PEDIDOFLOW_LOCAL_CONFIG_PATH: '/tmp/foreign.jsonc' },
     })).toThrow('managed development or isolated smoke config')
   })
+
 })
