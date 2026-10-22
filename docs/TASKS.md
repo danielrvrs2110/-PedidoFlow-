@@ -63,16 +63,17 @@ Last updated: 2026-10-22
 - [x] PF-027 Implement the responsive product catalog UI against the accepted
   PF-026 API. Integrated through PR #18 at `5e2468a` after full validation
   and browser QA; review: `docs/PF-027_REVIEW.md`.
+- [x] PF-028 Define the tenant-scoped customer and delivery-address API/UX
+  contract. Independently reviewed; contract: `docs/CUSTOMERS.md`; decision:
+  DEC-012.
 ## Current
 
-- [ ] PF-028 Define the tenant-scoped customer and delivery-address API/UX
-  contract before implementation. Use the accepted schema and authorization
-  model; keep pricing, orders, imports and production onboarding outside scope.
+- None. PF-029 has not started.
 
 ## Next
 
-- Write and independently review PF-028, including validation, default-address
-  invariants, cross-tenant behavior, mobile states and implementation gates.
+- PF-029 Implement the accepted customer/address repository and HTTP API with
+  isolated two-tenant D1 and default-address concurrency tests.
 
 ## Blocked
 
