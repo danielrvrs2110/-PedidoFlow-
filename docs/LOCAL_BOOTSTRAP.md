@@ -1,6 +1,7 @@
 # Local First-Owner Bootstrap (PF-023 / PF-024)
 
-Status: accepted contract implemented by PF-024; independent corrective review passed, pending integration.
+Status: accepted contract implemented by PF-024; independent corrective review
+passed and PR #15 integrated on 2026-10-22.
 
 ## Purpose and boundary
 

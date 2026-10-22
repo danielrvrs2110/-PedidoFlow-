@@ -1,7 +1,7 @@
 # PF-026 Review Handoff
 
-Status: PASS. Implementation accepted locally by the Orchestrator on
-2026-10-14; publication remains blocked only by unavailable GitHub credentials.
+Status: PASS. Accepted locally on 2026-10-14 and integrated through PR #17 at
+`d95533b` on 2026-10-22.
 
 ## Scope
 

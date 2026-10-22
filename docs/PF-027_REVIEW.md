@@ -1,7 +1,7 @@
 # PF-027 Product Catalog UI — Review Handoff
 
 Status: PASS locally on 2026-10-22 after full-suite rerun and real-browser QA;
-GitHub publication and integration remain pending.
+integrated through PR #18 at `5e2468a`.
 
 ## Scope
 
@@ -70,5 +70,4 @@ from a clean `npm ci`.
 
 - The full audit still reports development/optional-tooling findings; the
   production-only audit is clean. See `docs/DATABASE.md`.
-- Acceptance is local only. PF-024 must be integrated first, followed by
-  dependent PF-025, PF-026 and PF-027 publication and review.
+- PF-024 through PF-027 were integrated sequentially through PRs #15–#18.

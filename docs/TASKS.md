@@ -51,36 +51,32 @@ Last updated: 2026-10-22
 - [x] PF-023 Define the local-only first-owner bootstrap contract and
   implementation boundary. Integrated through PR #14 at `3d40758`; contract:
   `docs/LOCAL_BOOTSTRAP.md`; review: `docs/PF-023_REVIEW.md`.
+- [x] PF-024 Implement the local-only first-owner bootstrap command with
+  isolated D1/HTTP and secret-leak tests. Integrated through PR #15 at
+  `4c42cf6`; review: `docs/PF-024_REVIEW.md`.
 - [x] PF-025 Define the tenant-scoped product catalog and manual-alias API/UX
-  contract before implementation. Accepted locally on
-  `codex/docs/pf-025-product-catalog-contract`; contract:
-  `docs/PRODUCT_CATALOG.md`; decision: DEC-011. Publication remains dependent
-  on PF-024 integration.
+  contract before implementation. Integrated through PR #16 at `48fbe10`;
+  contract: `docs/PRODUCT_CATALOG.md`; decision: DEC-011.
 - [x] PF-026 Implement the accepted product and manual-alias repository/HTTP
-  contract with isolated two-tenant D1 tests. Accepted locally on
-  `codex/feature/pf-026-product-catalog-api`; review: `docs/PF-026_REVIEW.md`.
-  No product UI was added.
+  contract with isolated two-tenant D1 tests. Integrated through PR #17 at
+  `d95533b`; review: `docs/PF-026_REVIEW.md`.
 - [x] PF-027 Implement the responsive product catalog UI against the accepted
-  PF-026 API. Accepted locally after full validation and browser QA on
-  `codex/feature/pf-027-product-catalog-ui`; review: `docs/PF-027_REVIEW.md`.
-  GitHub integration remains pending.
+  PF-026 API. Integrated through PR #18 at `5e2468a` after full validation
+  and browser QA; review: `docs/PF-027_REVIEW.md`.
 ## Current
 
-- [ ] PF-024 Implement the accepted local-only first-owner bootstrap command
-  with isolated D1/HTTP lifecycle tests and secret-leak assertions.
-  Implementation and corrective independent review complete on
-  `codex/feature/pf-024-local-owner-bootstrap`; pending integration. Review:
-  `docs/PF-024_REVIEW.md`.
+- [ ] PF-028 Define the tenant-scoped customer and delivery-address API/UX
+  contract before implementation. Use the accepted schema and authorization
+  model; keep pricing, orders, imports and production onboarding outside scope.
+
 ## Next
 
-- Integrate reviewed PF-024 first, then publish and review dependent PF-025,
-  PF-026 and PF-027 in order.
+- Write and independently review PF-028, including validation, default-address
+  invariants, cross-tenant behavior, mobile states and implementation gates.
 
 ## Blocked
 
-- The local GitHub CLI and HTTPS Git push lack credentials. The connected GitHub
-  app has repository write permission; publication through that route has not
-  yet been validated. Local reviewed work remains safe and committed.
+- None.
 
 ## Technical Debt
 
@@ -185,6 +181,9 @@ Last updated: 2026-10-22
   Real-browser QA at 1440 × 900 and 390 × 844 covered catalog mutations,
   filters, dialogs, keyboard focus and mobile scrolling without horizontal
   overflow or errors in a fresh browser tab. See `docs/PF-027_REVIEW.md`.
+- PF-024 through PF-027: reviewed local trees matched the published GitHub
+  trees exactly. PRs #15–#18 were merged sequentially on 2026-10-22; the
+  remote `main` ref was verified after PF-027 integration.
 
 ## GitHub Status
 
@@ -205,6 +204,16 @@ Last updated: 2026-10-22
   `f82386abcd66589a5af47aa55123b1adfaa1cb6e`.
 - PR #14 merged PF-023 into `main` at
   `3d40758584e986acc9042ec3f3681e55d3a9c512`.
+- PR #15 merged PF-024 into `main` at
+  `4c42cf69a11a8238d72d64ae4c3cd55cc662489a`.
+- PR #16 merged PF-025 into `main` at
+  `48fbe109b430ff0f269940472f174c251e849879`.
+- PR #17 merged PF-026 into `main` at
+  `d95533b8cd93d8083282bf02b6a1e2ec00e02050`.
+- PR #18 merged PF-027 into `main` at
+  `5e2468a35104f2baf218a6315245cc7b4f99c11e`.
+- The local GitHub CLI and HTTPS Git push still lack credentials; the connected
+  GitHub app supplied the verified publication route for PRs #15–#18.
 - Public remote access has been verified.
 - The PedidoFlow operating documentation is committed and published.
 
@@ -214,7 +223,7 @@ Last updated: 2026-10-22
 - [x] M1 — Repository and environment foundation
 - [x] M2 — UX foundations and design system
 - [x] M3 — Database and tenant model
-- [ ] M4 — Authentication and authorization
+- [x] M4 — Authentication and authorization
 - [ ] M5 — Operational application foundation
 - [ ] M6 — Interpretation and review
 - [ ] M7 — Fulfillment

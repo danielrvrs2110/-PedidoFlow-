@@ -1,6 +1,7 @@
 # Product Catalog Contract (PF-025)
 
-Status: accepted by independent contract review; implementation is split into PF-026 and PF-027.
+Status: accepted by independent contract review and implemented through PF-026
+and PF-027; PRs #16–#18 integrated on 2026-10-22.
 
 ## Purpose and sequence
 

@@ -37,17 +37,17 @@ findings remain tracked; the production dependency audit is clean.
 
 ## M4 — Authentication and Authorization
 
-Status: Implementation and corrective review complete locally through PF-024;
-PF-024 publication/integration is blocked only by GitHub authentication.
+Status: Complete on 2026-10-22 through PF-024 and pull request #15. Production
+onboarding remains a separate future decision.
 
 Implement Better Auth, organization membership, protected routes, roles, and
 verified cross-tenant isolation.
 
 ## M5 — Operational Application Foundation
 
-Status: In progress locally; PF-025 product-catalog contract accepted and
-PF-026 backend implementation next, based on the reviewed PF-024 branch while
-remote publication remains blocked.
+Status: In progress. The product/alias contract, API and responsive UI were
+integrated through PF-025–PF-027 and pull requests #16–#18. Customer management
+is the next bounded module.
 
 Build the responsive application shell and real catalog, inventory, customer,
 pricing, and manual-order behavior.
