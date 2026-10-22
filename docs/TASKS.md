@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-10-14
+Last updated: 2026-10-22
 
 ## Completed
 
@@ -60,6 +60,10 @@ Last updated: 2026-10-14
   contract with isolated two-tenant D1 tests. Accepted locally on
   `codex/feature/pf-026-product-catalog-api`; review: `docs/PF-026_REVIEW.md`.
   No product UI was added.
+- [x] PF-027 Implement the responsive product catalog UI against the accepted
+  PF-026 API. Accepted locally after full validation and browser QA on
+  `codex/feature/pf-027-product-catalog-ui`; review: `docs/PF-027_REVIEW.md`.
+  GitHub integration remains pending.
 ## Current
 
 - [ ] PF-024 Implement the accepted local-only first-owner bootstrap command
@@ -67,23 +71,20 @@ Last updated: 2026-10-14
   Implementation and corrective independent review complete on
   `codex/feature/pf-024-local-owner-bootstrap`; pending integration. Review:
   `docs/PF-024_REVIEW.md`.
-- [ ] PF-027 Implement the responsive product catalog UI against the accepted
-  PF-026 API without expanding into inventory, pricing or imports.
-
 ## Next
 
-- Implement and validate PF-027. Integrate reviewed PF-024 before publishing
-  dependent work.
+- Integrate reviewed PF-024 first, then publish and review dependent PF-025,
+  PF-026 and PF-027 in order.
 
 ## Blocked
 
-- Publishing/integrating PF-024 and dependent PF-025/PF-026 work is blocked because
-  the local GitHub CLI has no authenticated session and the HTTPS/SSH push
-  credentials are unavailable. Local reviewed work remains safe and committed.
+- The local GitHub CLI and HTTPS Git push lack credentials. The connected GitHub
+  app has repository write permission; publication through that route has not
+  yet been validated. Local reviewed work remains safe and committed.
 
 ## Technical Debt
 
-- Nine current full-audit findings remain in development/optional Drizzle and
+- Eleven current full-audit findings remain in development/optional Drizzle and
   Cloudflare tooling paths; `npm audit --omit=dev --omit=optional` reports zero.
   See `docs/DATABASE.md`.
 - The local directory is named `Solervia`; the Git repository is being treated as the independent PedidoFlow product repository.
@@ -179,6 +180,11 @@ Last updated: 2026-10-14
   strict product/alias inputs, manual-alias ownership, stable tenant-scoped
   pagination/search, capability/error boundaries and separate PF-026/PF-027
   implementation gates. Documentation diff validation passed locally.
+- PF-027: 170/170 tests across 10 files after corrective fixes; lint, build,
+  migration drift check, isolated HTTP smoke and production-only audit pass.
+  Real-browser QA at 1440 × 900 and 390 × 844 covered catalog mutations,
+  filters, dialogs, keyboard focus and mobile scrolling without horizontal
+  overflow or errors in a fresh browser tab. See `docs/PF-027_REVIEW.md`.
 
 ## GitHub Status
 

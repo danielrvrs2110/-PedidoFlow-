@@ -271,13 +271,15 @@ implement that service or pretend the development fixtures exercise it.
 Before Better Auth was installed, `npm audit --omit=dev` reported zero
 vulnerabilities. Better Auth 1.6.26 declares development tools as optional
 peers, so npm 11 can retain tooling paths even with `--omit=dev`. As of the
-PF-024 corrective validation, the full audit reports nine findings (six
-moderate, three high) in Drizzle Kit's legacy esbuild chain and in the
-Cloudflare local-tooling `wrangler`/`miniflare` graph. These are not imported by
+PF-027 validation on 2026-10-22, the full audit reports eleven findings
+(eight moderate, three high) in development/optional tooling paths, including
+Drizzle Kit's legacy esbuild chain and the Cloudflare local-tooling
+`wrangler`/`miniflare` graph. These are not imported by
 the deployed Worker bundle; `npm audit --omit=dev --omit=optional` reports zero.
 No Drizzle Studio or externally reachable tooling endpoint is started by this
-workflow. A newly reported transitive `source-map-js` finding is fixed with the
-narrow compatible `1.2.2` override. The remaining automated fixes include a
+workflow. A transitive `source-map-js` finding is fixed with the narrow
+compatible `1.2.2` override. Hono 4.13.13 and Vite 8.3.5 clear the newly
+reported direct-dependency findings. The remaining automated fixes include a
 breaking Drizzle downgrade or broader Cloudflare tooling upgrades and therefore
 remain a separate reviewed maintenance task. Reassess against stable releases;
 do not silently switch the project to an RC or downgrade.
