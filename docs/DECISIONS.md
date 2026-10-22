@@ -165,3 +165,22 @@
 - Alternatives: Combining catalog, stock, pricing and import would make the
   first M5 increment too broad; silently uppercasing SKUs or adding a unique
   normalized column would change existing data semantics and needs a migration.
+
+## DEC-012 — Customer and delivery-address management boundary
+
+- Date: 2026-10-22
+- Status: Accepted by PF-028 independent contract review.
+- Decision: Use the accepted tenant-scoped customer/address schema and existing
+  authorization capability. Keep customers as inactive records rather than
+  hard deleting them. Keep exactly one default delivery address when any exist;
+  make default changes atomic and choose a deterministic replacement on delete.
+- Reason: Existing order and conversation relationships require stable customer
+  identity, and address selection must remain predictable under concurrent
+  requests. Pricing and order history belong to later modules.
+- Consequence: Split implementation into a server/API task and a responsive UI
+  task. Prove the default invariant in isolated D1 concurrency tests before
+  exposing mutations. A new immutable migration is required if transactional
+  application enforcement cannot establish the guarantee.
+- Alternatives: Customer hard deletion would threaten references; storing a
+  client-selected default flag in ordinary PATCH bodies would obscure the
+  transition; combining pricing and orders would expand the first increment.
