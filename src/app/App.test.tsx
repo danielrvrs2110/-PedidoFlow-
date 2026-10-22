@@ -93,6 +93,17 @@ describe('protected application routing', () => {
     expect(screen.queryByText('Estructura inicial')).not.toBeInTheDocument()
   })
 
+  it('passes the verified organization through the shell to the product catalog', async () => {
+    mockApi(
+      getSession(json(session)),
+      getContext(json(context)),
+      { path: '/api/products?status=active&limit=50', result: json({ items: [], nextCursor: null }) },
+    )
+    renderRoute('/app/products')
+    expect(await screen.findByRole('heading', { name: 'Productos' })).toBeInTheDocument()
+    expect(await screen.findByText('Aún no hay productos')).toBeInTheDocument()
+  })
+
   it.each([
     ['no_access', 'Sin acceso operativo'],
     ['selection_required', 'Selecciona una organización'],

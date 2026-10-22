@@ -7,6 +7,7 @@ import { LoginPage } from './LoginPage'
 import { ApplicationNotFound, ModulePage } from './ModulePage'
 import { modulePages } from './modulePages'
 import { ProtectedRoute } from './ProtectedRoute'
+import { ProductCatalogPage } from './ProductCatalogPage'
 
 const initialHealth: HealthState = {
   state: 'loading',
@@ -85,7 +86,7 @@ export default function App() {
           <Route path="orders" element={<ModulePage page={modulePages.orders} />} />
           <Route path="picking" element={<ModulePage page={modulePages.picking} />} />
           <Route path="customers" element={<ModulePage page={modulePages.customers} />} />
-          <Route path="products" element={<ModulePage page={modulePages.products} />} />
+          <Route path="products" element={<ProductCatalogPage />} />
           <Route path="inventory" element={<ModulePage page={modulePages.inventory} />} />
           <Route path="pricing" element={<ModulePage page={modulePages.pricing} />} />
           <Route path="import" element={<ModulePage page={modulePages.import} />} />

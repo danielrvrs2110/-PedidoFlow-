@@ -276,7 +276,7 @@ export function AppShell() {
         ) : null}
 
         <main id="main-content" tabIndex={-1} className="px-4 pt-6 pb-24 outline-none sm:px-5 md:px-6 md:py-8 lg:px-8">
-          <Outlet />
+          <Outlet context={{ organization } satisfies ProtectedOutletContext} />
         </main>
       </div>
 
