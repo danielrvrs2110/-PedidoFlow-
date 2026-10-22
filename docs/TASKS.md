@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-10-13
+Last updated: 2026-10-14
 
 ## Completed
 
@@ -56,6 +56,10 @@ Last updated: 2026-10-13
   `codex/docs/pf-025-product-catalog-contract`; contract:
   `docs/PRODUCT_CATALOG.md`; decision: DEC-011. Publication remains dependent
   on PF-024 integration.
+- [x] PF-026 Implement the accepted product and manual-alias repository/HTTP
+  contract with isolated two-tenant D1 tests. Accepted locally on
+  `codex/feature/pf-026-product-catalog-api`; review: `docs/PF-026_REVIEW.md`.
+  No product UI was added.
 ## Current
 
 - [ ] PF-024 Implement the accepted local-only first-owner bootstrap command
@@ -63,17 +67,17 @@ Last updated: 2026-10-13
   Implementation and corrective independent review complete on
   `codex/feature/pf-024-local-owner-bootstrap`; pending integration. Review:
   `docs/PF-024_REVIEW.md`.
-- [ ] PF-026 Implement the accepted product and manual-alias repository/HTTP
-  contract with isolated two-tenant D1 tests. Do not add the product UI yet.
+- [ ] PF-027 Implement the responsive product catalog UI against the accepted
+  PF-026 API without expanding into inventory, pricing or imports.
 
 ## Next
 
-- Implement PF-026, then add the responsive product UI as PF-027. Integrate
-  reviewed PF-024 before publishing dependent work.
+- Implement and validate PF-027. Integrate reviewed PF-024 before publishing
+  dependent work.
 
 ## Blocked
 
-- Publishing/integrating PF-024 and dependent PF-025 work is blocked because
+- Publishing/integrating PF-024 and dependent PF-025/PF-026 work is blocked because
   the local GitHub CLI has no authenticated session and the HTTPS/SSH push
   credentials are unavailable. Local reviewed work remains safe and committed.
 
