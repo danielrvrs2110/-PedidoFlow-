@@ -1,6 +1,6 @@
 # PedidoFlow Project State
 
-Last updated: 2026-09-24
+Last updated: 2026-10-13
 
 ## Completed
 
@@ -51,6 +51,11 @@ Last updated: 2026-09-24
 - [x] PF-023 Define the local-only first-owner bootstrap contract and
   implementation boundary. Integrated through PR #14 at `3d40758`; contract:
   `docs/LOCAL_BOOTSTRAP.md`; review: `docs/PF-023_REVIEW.md`.
+- [x] PF-025 Define the tenant-scoped product catalog and manual-alias API/UX
+  contract before implementation. Accepted locally on
+  `codex/docs/pf-025-product-catalog-contract`; contract:
+  `docs/PRODUCT_CATALOG.md`; decision: DEC-011. Publication remains dependent
+  on PF-024 integration.
 ## Current
 
 - [ ] PF-024 Implement the accepted local-only first-owner bootstrap command
@@ -58,14 +63,19 @@ Last updated: 2026-09-24
   Implementation and corrective independent review complete on
   `codex/feature/pf-024-local-owner-bootstrap`; pending integration. Review:
   `docs/PF-024_REVIEW.md`.
+- [ ] PF-026 Implement the accepted product and manual-alias repository/HTTP
+  contract with isolated two-tenant D1 tests. Do not add the product UI yet.
 
 ## Next
 
-- Integrate reviewed PF-024 before any production onboarding decision.
+- Implement PF-026, then add the responsive product UI as PF-027. Integrate
+  reviewed PF-024 before publishing dependent work.
 
 ## Blocked
 
-- None.
+- Publishing/integrating PF-024 and dependent PF-025 work is blocked because
+  the local GitHub CLI has no authenticated session and the HTTPS/SSH push
+  credentials are unavailable. Local reviewed work remains safe and committed.
 
 ## Technical Debt
 
@@ -161,6 +171,10 @@ Last updated: 2026-09-24
 - PF-023: accepted local-only bootstrap boundary, secret handling, exact retry
   semantics and atomic organization-plus-owner contract. PR #14 merged into
   `main` at `3d40758584e986acc9042ec3f3681e55d3a9c512`.
+- PF-025: independently reviewed product-catalog contract defines safe DTOs,
+  strict product/alias inputs, manual-alias ownership, stable tenant-scoped
+  pagination/search, capability/error boundaries and separate PF-026/PF-027
+  implementation gates. Documentation diff validation passed locally.
 
 ## GitHub Status
 

@@ -145,3 +145,23 @@
 - Alternatives: A committed demo password is unsafe; direct auth-table inserts
   bypass Better Auth; a public signup/onboarding UI would decide production
   policy and expand scope prematurely.
+
+## DEC-011 — Catalog starts with products and manual aliases
+
+- Date: 2026-10-13
+- Status: Accepted by PF-025 independent contract review.
+- Decision: Begin M5 with tenant-scoped product and manual-alias management,
+  split into a server/API task and a later responsive UI task. Preserve SKU
+  case with NFC/trim normalization, derive alias normalization server-side, and
+  deactivate products instead of hard deleting them.
+- Reason: Customers, pricing and manual orders depend on stable catalog records.
+  The accepted schema already supports products and aliases, while hard deletion
+  would conflict with operational history and case-folding SKU identity would
+  require a new database invariant.
+- Consequence: The first catalog release has no product DELETE endpoint. Exact
+  tenant-local SKU uniqueness remains the database rule. Identical normalized
+  aliases may point to different products and future matching must surface that
+  ambiguity rather than silently choose.
+- Alternatives: Combining catalog, stock, pricing and import would make the
+  first M5 increment too broad; silently uppercasing SKUs or adding a unique
+  normalized column would change existing data semantics and needs a migration.
