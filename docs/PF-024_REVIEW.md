@@ -1,6 +1,7 @@
 # PF-024 Review Handoff
 
-Status: PASS after corrective independent security review; pending integration.
+Status: PASS after corrective independent security review; integrated through
+PR #15 at `4c42cf6` on 2026-10-22.
 
 ## Scope
 
