@@ -1,6 +1,6 @@
-# Local First-Owner Bootstrap Contract (PF-023)
+# Local First-Owner Bootstrap (PF-023 / PF-024)
 
-Status: accepted contract; no mutation command is implemented by this task.
+Status: accepted contract implemented by PF-024; independent corrective review passed, pending integration.
 
 ## Purpose and boundary
 
@@ -126,5 +126,43 @@ Tests must also scan captured stdout/stderr and HTTP payloads recursively to
 prove that the submitted password, auth secret, cookies and persisted session
 tokens never appear.
 
-PF-023 itself records only this contract. Implementation requires a subsequent
-focused task and independent security review.
+## Implemented command
+
+After `npm run dev:prepare` has created the ignored local secret and applied
+migrations, run:
+
+```bash
+npm run bootstrap:local-owner
+```
+
+The command accepts no arguments or environment-selected target. It validates
+the checked-in local configuration and migration history before prompting. It
+normalizes email to lowercase, collapses organization-name whitespace, and
+requires a 2–63 character lowercase ASCII slug made of letters, numbers and
+single hyphens. Passwords must contain 8–128 characters and are read only from
+a hidden interactive TTY; tests inject the input directly into the exported
+orchestration function and do not create a non-interactive production input.
+
+The implementation owns the existing local lock for its full lifetime. It
+requires the ignored `.dev.vars` to be a current-user-owned, mode-`0600`
+regular file containing only the expected secret assignment. Its bootstrap-owned
+temporary Vite configuration changes only the auth origin to an ephemeral
+`127.0.0.1` port, writes the descriptor-validated secret into its owned runtime
+as a mode-`0600` file, keeps
+remote bindings disabled, and uses the managed persistence without widening
+the normal development runtime selector. The Worker is stopped and its exit
+awaited before Wrangler opens D1. Wrangler submits the organization
+and membership inserts together as one D1 batch. The Worker is then restarted
+to verify sign-in, the redacted session response and owner context through real
+HTTP. Temporary runtime files are removed only after the owned process exits.
+
+An exact active-owner retry returns a verified no-op. Duplicate slugs and any
+different or ambiguous membership fail closed. If Better Auth created the
+identity before the organization batch failed, retry with the same credentials;
+the command never performs compensating deletes.
+
+SIGINT and SIGTERM abort before any pending organization transaction, stop the
+owned Worker, remove only the internally created temporary directory and
+release the local lock. PF-024 does not add a route, UI, migration, remote
+binding, reset or seed. Its independent corrective security review passed;
+integration remains the final gate.

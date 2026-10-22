@@ -26,7 +26,8 @@
     "test:db": "vitest run worker/db/database.test.ts",
     "test:auth": "vitest run worker/auth.test.ts",
     "test:authz": "vitest run worker/authorization.test.ts",
-    "test:local-runtime": "node scripts/dev/smoke.mjs"
+    "test:local-runtime": "node scripts/dev/smoke.mjs",
+    "bootstrap:local-owner": "node scripts/bootstrap/local-owner.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -59,5 +60,8 @@
     "esbuild@0.28.1": true,
     "workerd@1.20260910.1": true,
     "fsevents@2.3.3": true
+  },
+  "overrides": {
+    "source-map-js": "1.2.2"
   }
 }

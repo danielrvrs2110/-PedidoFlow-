@@ -1,7 +1,7 @@
 # Local D1 / Drizzle foundation (PF-017)
 
-Status: integrated through PR #8; M3 completed on 2026-09-15. The four moderate
-development-tooling findings below remain tracked.
+Status: integrated through PR #8; M3 completed on 2026-09-15. The current
+development/optional-tooling findings below remain tracked.
 
 ## Scope and versions
 
@@ -52,6 +52,14 @@ npm run db:seed:local
 npm run db:seed:local
 npm run db:inspect:local
 ```
+
+PF-024 adds `npm run bootstrap:local-owner` after `dev:prepare`. It is an
+explicit interactive local-only command, never resets or seeds, and shares the
+same `.wrangler/pf017-local.lock` and persistence. It creates/authenticates the
+identity only through Better Auth, closes the owned ephemeral Worker before
+direct D1 access, and submits the active organization plus active owner
+membership as one D1 batch. Exact retries are no-ops; duplicate slugs and
+different/ambiguous memberships fail closed. See `docs/LOCAL_BOOTSTRAP.md`.
 
 For the interactive Worker runtime, prepare and start it in two explicit steps:
 
@@ -261,16 +269,18 @@ implement that service or pretend the development fixtures exercise it.
 ## Dependency follow-up
 
 Before Better Auth was installed, `npm audit --omit=dev` reported zero
-vulnerabilities. Better Auth 1.6.26 declares Drizzle Kit as an optional peer, so
-npm 11 now classifies the existing development-only Drizzle installation as
-`devOptional`: `npm audit --omit=dev` reports the same four moderate findings,
-while `npm audit --omit=dev --omit=optional` reports zero. The findings remain
-in Drizzle Kit's legacy `@esbuild-kit` / esbuild
-chain ([advisory](https://github.com/advisories/GHSA-67mh-4wv8-2f99)). These are
-development dependencies, not Worker code. No esbuild serving or Drizzle Studio
-endpoint is started by this workflow. The suggested audit fix is a breaking
-Drizzle downgrade, so it was not applied. Reassess when a stable tooling release
-removes the chain; do not silently switch the project to an RC or downgrade.
+vulnerabilities. Better Auth 1.6.26 declares development tools as optional
+peers, so npm 11 can retain tooling paths even with `--omit=dev`. As of the
+PF-024 corrective validation, the full audit reports nine findings (six
+moderate, three high) in Drizzle Kit's legacy esbuild chain and in the
+Cloudflare local-tooling `wrangler`/`miniflare` graph. These are not imported by
+the deployed Worker bundle; `npm audit --omit=dev --omit=optional` reports zero.
+No Drizzle Studio or externally reachable tooling endpoint is started by this
+workflow. A newly reported transitive `source-map-js` finding is fixed with the
+narrow compatible `1.2.2` override. The remaining automated fixes include a
+breaking Drizzle downgrade or broader Cloudflare tooling upgrades and therefore
+remain a separate reviewed maintenance task. Reassess against stable releases;
+do not silently switch the project to an RC or downgrade.
 
 ## Better Auth identity schema (PF-019)
 
