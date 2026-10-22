@@ -32,18 +32,22 @@ review behavior, and intentional desktop/mobile layouts.
 Status: Complete on 2026-09-15 through pull request #8.
 
 Implement Drizzle/D1 schema, migrations, realistic seed tooling, constraints,
-indexes, and organization scoping. Four moderate development-only Drizzle
-tooling findings remain tracked; production dependencies audit cleanly.
+indexes, and organization scoping. Current development/optional-tooling
+findings remain tracked; the production dependency audit is clean.
 
 ## M4 — Authentication and Authorization
 
-Status: In progress; PF-018 contract accepted, PF-019 identity/session
-foundation next.
+Status: Implementation and corrective review complete locally through PF-024;
+PF-024 publication/integration is blocked only by GitHub authentication.
 
 Implement Better Auth, organization membership, protected routes, roles, and
 verified cross-tenant isolation.
 
 ## M5 — Operational Application Foundation
+
+Status: In progress locally; PF-025 product-catalog contract accepted and
+PF-026 backend implementation next, based on the reviewed PF-024 branch while
+remote publication remains blocked.
 
 Build the responsive application shell and real catalog, inventory, customer,
 pricing, and manual-order behavior.
